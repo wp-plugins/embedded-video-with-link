@@ -3,14 +3,14 @@
 Plugin Name: Embedded Video with Link
 Plugin URI: http://www.jovelstefan.de/embedded-video/
 Description: Easy embedding of videos from various portals or local video files with corresponding link. <a href="options-general.php?page=embeddedvideo_options_page">Configure...</a>
-Version: 3.2.1
+Version: 3.2.2
 License: GPL
 Author: Stefan He&szlig;
 Author URI: http://www.jovelstefan.de
 
 Contact mail: jovelstefan@gmx.de
 */
-DEFINE ("EV_VERSION", "321");
+DEFINE ("EV_VERSION", "322");
 
 // prevent file from being accessed directly
 
