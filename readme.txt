@@ -10,7 +10,7 @@ Easy embedding of videos from various portals or local video files of many file 
 
 == Description ==
 
-The plugin ‘Embedded Video with Link’ is made for easily embedding videos into a blog post. The videos can be integrated from external portals (like YouTube, Google Video and many many others) or they can be uploaded to the web server and integrated as well. Additionally a corresponding link to the video on the particular video portal page or a download link to the local file can be generated automatically, if demanded. The linktext is also configurable individually.
+The plugin is made for easily embedding videos into a blog post. The videos can be integrated from external portals (like YouTube, Google Video and many many others) or they can be uploaded to the web server and integrated as well. Additionally a corresponding link to the video on the particular video portal page or a download link to the local file can be generated automatically, if demanded. The linktext is also configurable individually.
 Furthermore a fixed prefix for the linktext can be determined. 
 The videos can be integrated easily by using the built-in WYSIWYG editor. The plugin generates XHTML-valid code an works with WP 2.0.x and 2.1.
 
@@ -23,7 +23,7 @@ The following video portals are currently supported:
 * Clipfish
 * Sevenload
 * Revver
-* Metacafé
+* MetacafÃ©
 * Yahoo! Video
 * ifilm
 * MySpace Video
@@ -42,8 +42,8 @@ The following file formats for local files are currently supported:
 
 == Installation ==
 
-Copy the folder ‘embedded-video’ with all included files into the ‘wp-content/plugins’ folder of WordPress. Then go to the menu ‘Administration’ > ‘Plugins’ and activate it. 
-If you want the plugin to play own Flash videos (FLV/SWF files), you need to add [Jeroen Wijerings Flash-Video-Player](http://www.jeroenwijering.com/?item=Flash_Video_Player). Download the zip-file, extract it and copy the containing folder ‘flash_flv_player’ to the plugin folder ‘embedded-video’.
+Copy the subfolder "embedded-video" with all included files into the "wp-content/plugins" folder of WordPress. Then go to the menu "Administration" > "Plugins" and activate it. 
+If you want the plugin to play own Flash videos (FLV/SWF files), you need to add [Jeroen Wijerings Flash-Video-Player](http://www.jeroenwijering.com/?item=Flash_Video_Player). Download the zip-file, extract it and copy the containing folder â€˜flash_flv_playerâ€™ to the plugin folder â€˜embedded-videoâ€™.
 
 Note: If you want to use the Flash Video Player commercially, a license fee has to be paid!
 
