@@ -3,14 +3,13 @@
 Plugin Name: Embedded Video with Link
 Plugin URI: http://www.jovelstefan.de/embedded-video/
 Description: Easy embedding of videos from various portals or local video files with corresponding link. <a href="options-general.php?page=embeddedvideo_options_page">Configure...</a>
-Version: 3.2.1
+Version: 3.3
 License: GPL
 Author: Stefan He&szlig;
 Author URI: http://www.jovelstefan.de
 
 Contact mail: jovelstefan@gmx.de
 */
-DEFINE ("EV_VERSION", "321");
 
 // prevent file from being accessed directly
 
@@ -81,6 +80,8 @@ define("GARAGE_RATIO", 289/430);
 define("GARAGE_HEIGHT", floor(GENERAL_WIDTH*GARAGE_RATIO));
 define("GAMEVIDEO_RATIO", 3/4);
 define("GAMEVIDEO_HEIGHT", floor(GENERAL_WIDTH*GAMEVIDEO_RATIO));
+define("VSOCIAL_RATIO", 40/41);
+define("VSOCIAL_HEIGHT", floor(GENERAL_WIDTH*VSOCIAL_RATIO));
 
 // object targets and links
 define("YOUTUBE_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.youtube.com/v/###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".YOUTUBE_HEIGHT."\"><param name=\"movie\" value=\"http://www.youtube.com/v/###VID###\" /><param name=\"autostart\" value=\"true\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
@@ -115,22 +116,29 @@ define("DAILYMOTION_TARGET", "<object type=\"application/x-shockwave-flash\" dat
 define("GARAGE_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.garagetv.be/v/###VID###/v.aspx\" width=\"".GENERAL_WIDTH."\" height=\"".GARAGE_HEIGHT."\"><param name=\"movie\" value=\"http://www.garagetv.be/v/###VID###/v.aspx\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
 define("GAMEVIDEO_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://gamevideos.com:80/swf/gamevideos11.swf?embedded=1&amp;autoplay=0&amp;src=http://gamevideos.com:80/video/videoListXML%3Fid%3D###VID###%26adPlay%3Dfalse\" width=\"".GENERAL_WIDTH."\" height=\"".GAMEVIDEO_HEIGHT."\"><param name=\"movie\" value=\"http://gamevideos.com:80/swf/gamevideos11.swf?embedded=1&fullscreen=1&amp;autoplay=0&amp;src=http://gamevideos.com:80/video/videoListXML%3Fid%3D###VID###%26adPlay%3Dfalse\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
 define("GAMEVIDEO_LINK", "<a title=\"GameVideos\" href=\"http://gamevideos.com/video/id/###VID###\">GameVideos ###TXT######THING###</a>");
+define("VSOCIAL_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://static.vsocial.com/flash/ups.swf?d=###VID###&a=0\" width=\"".GENERAL_WIDTH."\" height=\"".VSOCIAL_HEIGHT."\"><param name=\"movie\" value=\"http://static.vsocial.com/flash/ups.swf?d=###VID###&a=0\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
+define("VSOCIAL_LINK", "<a title=\"vSocial\" href=\"http://www.vsocial.com/video/?d=###VID###\">vSocial ###TXT######THING###</a>");
 
-define("QUICKTIME_TARGET", "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\" codebase=\"http://www.apple.com/qtactivex/qtplugin.cab\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\"><param name=\"src\" value=\"".get_option('siteurl')."###VID###\" /><param name=\"autoplay\" value=\"false\" /><param name=\"pluginspage\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\" type=\"video/quicktime\"><param name=\"pluginurl\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><param name=\"autoplay\" value=\"false\" /></object><!--> <![endif]--></object><br />");
-define("VIDEO_TARGET", "<object classid=\"clsid:22D6f312-B0F6-11D0-94AB-0080C74C7E95\" codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-oleobject\"><param name=\"filename\" value=\"".get_option('siteurl')."###VID###\" /><param name=\"autostart\" value=\"false\" /><param name=\"showcontrols\" value=\"true\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-mplayer2\"><param name=\"pluginurl\" value=\"http://www.microsoft.com/Windows/MediaPlayer/\" /><param name=\"ShowControls\" value=\"true\" /><param name=\"ShowStatusBar\" value=\"true\" /><param name=\"ShowDisplay\" value=\"true\" /><param name=\"Autostart\" value=\"0\" /></object><!--> <![endif]--></object><br />");
-define("FLASHPLAYER_TARGET", "<object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=".get_option('siteurl')."###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=true&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><br />");
-define("VIDEO_LINK", "<a title=\"Video File\" href=\"".get_option('siteurl')."###VID###\">Download Video</a>");
+define("LOCAL_QUICKTIME_TARGET", "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\" codebase=\"http://www.apple.com/qtactivex/qtplugin.cab\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\"><param name=\"src\" value=\"".get_option('siteurl')."###VID###\" /><param name=\"autoplay\" value=\"false\" /><param name=\"pluginspage\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\" type=\"video/quicktime\"><param name=\"pluginurl\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><param name=\"autoplay\" value=\"false\" /></object><!--> <![endif]--></object><br />");
+define("LOCAL_FLASHPLAYER_TARGET", "<object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=".get_option('siteurl')."###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=true&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><br />");
+define("LOCAL_TARGET", "<object classid=\"clsid:22D6f312-B0F6-11D0-94AB-0080C74C7E95\" codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-oleobject\"><param name=\"filename\" value=\"".get_option('siteurl')."###VID###\" /><param name=\"autostart\" value=\"false\" /><param name=\"showcontrols\" value=\"true\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-mplayer2\"><param name=\"pluginurl\" value=\"http://www.microsoft.com/Windows/MediaPlayer/\" /><param name=\"ShowControls\" value=\"true\" /><param name=\"ShowStatusBar\" value=\"true\" /><param name=\"ShowDisplay\" value=\"true\" /><param name=\"Autostart\" value=\"0\" /></object><!--> <![endif]--></object><br />");
+define("LOCAL_LINK", "<a title=\"Video File\" href=\"".get_option('siteurl')."###VID###\">Download Video</a>");
+
+define("QUICKTIME_TARGET", "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\" codebase=\"http://www.apple.com/qtactivex/qtplugin.cab\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\"><param name=\"src\" value=\"###VID###\" /><param name=\"autoplay\" value=\"false\" /><param name=\"pluginspage\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><!--[if !IE]> <--><object data=\"###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\" type=\"video/quicktime\"><param name=\"pluginurl\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><param name=\"autoplay\" value=\"false\" /></object><!--> <![endif]--></object><br />");
+define("FLASHPLAYER_TARGET", "<object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=true&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><br />");
+define("VIDEO_TARGET", "<object classid=\"clsid:22D6f312-B0F6-11D0-94AB-0080C74C7E95\" codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-oleobject\"><param name=\"filename\" value=\"###VID###\" /><param name=\"autostart\" value=\"false\" /><param name=\"showcontrols\" value=\"true\" /><!--[if !IE]> <--><object data=\"###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-mplayer2\"><param name=\"pluginurl\" value=\"http://www.microsoft.com/Windows/MediaPlayer/\" /><param name=\"ShowControls\" value=\"true\" /><param name=\"ShowStatusBar\" value=\"true\" /><param name=\"ShowDisplay\" value=\"true\" /><param name=\"Autostart\" value=\"0\" /></object><!--> <![endif]--></object><br />");
+define("VIDEO_LINK", "<a title=\"Video File\" href=\"###VID###\">Download Video</a>");
 
 // regular expressions
-define("REGEXP_1", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|local) ([[:graph:]]+) (nolink)\]/");
-define("REGEXP_2", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|local) ([[:graph:]]+) ([[:print:]]+)\]/");
-define("REGEXP_3", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|local) ([[:graph:]]+)\]/");
+define("REGEXP_1", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|local|video) ([[:graph:]]+) (nolink)\]/");
+define("REGEXP_2", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|local|video) ([[:graph:]]+) ([[:print:]]+)\]/");
+define("REGEXP_3", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|local|video) ([[:graph:]]+)\]/");
 
 // logic
 function embeddedvideo_plugin_callback($match) {
 	$output = '';
 	// insert plugin link
-	if ((!is_feed())&&('true' == get_option('embeddedvideo_pluginlink'))) $output .= '<small>embedded by <a href="http://www.jovelstefan.de/embedded-video/" title="Plugin Page"><em>WP Embedded Video</em></a></small><br />';
+	if ((!is_feed())&&('true' == get_option('embeddedvideo_pluginlink'))) $output .= '<small>embedded by <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="Plugin Page"><em>WP Embedded Video</em></a></small><br />';
 
 	// insert video if not a feed
 	if ( !is_feed() ) {
@@ -150,12 +158,17 @@ function embeddedvideo_plugin_callback($match) {
 			case "vimeo": $output .= VIMEO_TARGET; break;
 			case "guba": $output .= GUBA_TARGET; break;
 			case "gamevideo": $output .= GAMEVIDEO_TARGET; break;
+			case "vsocial": $output .= VSOCIAL_TARGET; break;
 			case "dailymotion": $output .= DAILYMOTION_TARGET; $match[3] = "nolink"; break;
 			case "garagetv": $output .= GARAGE_TARGET; $match[3] = "nolink"; break;
 			case "local":
-				if (preg_match("%([[:print:]]+).(mov|qt)$%", $match[2])) { $output .= QUICKTIME_TARGET; break; }
-				elseif (preg_match("%([[:print:]]+).(wmv|mpg|mpeg|mpe|asf|asx|wax|wmv|wmx|avi)$%", $match[2])) { $output .= VIDEO_TARGET; break; }
-				elseif (preg_match("%([[:print:]]+).(swf|flv)$%", $match[2])) { $output .= FLASHPLAYER_TARGET; break; }
+				if (preg_match("%([[:print:]]+).(mov|qt|MOV|QT)$%", $match[2])) { $output .= LOCAL_QUICKTIME_TARGET; break; }
+				elseif (preg_match("%([[:print:]]+).(wmv|mpg|mpeg|mpe|asf|asx|wax|wmv|wmx|avi|WMV|MPG|MPEG|MPE|ASF|ASX|WAX|WMV|WMX|AVI)$%", $match[2])) { $output .= LOCAL_TARGET; break; }
+				elseif (preg_match("%([[:print:]]+).(swf|flv|SWF|FLV)$%", $match[2])) { $output .= LOCAL_FLASHPLAYER_TARGET; break; }
+			case "video":
+				if (preg_match("%([[:print:]]+).(mov|qt|MOV|QT)$%", $match[2])) { $output .= QUICKTIME_TARGET; break; }
+				elseif (preg_match("%([[:print:]]+).(wmv|mpg|mpeg|mpe|asf|asx|wax|wmv|wmx|avi|WMV|MPG|MPEG|MPE|ASF|ASX|WAX|WMV|WMX|AVI)$%", $match[2])) { $output .= VIDEO_TARGET; break; }
+				elseif (preg_match("%([[:print:]]+).(swf|flv|SWF|FLV)$%", $match[2])) { $output .= FLASHPLAYER_TARGET; break; }
 			default: break;
 		}
 	} else {
@@ -185,9 +198,11 @@ function embeddedvideo_plugin_callback($match) {
 			case "vimeo": $output .= VIMEO_LINK; break;
 			case "guba": $output .= GUBA_LINK; break;
 			case "gamevideo": $output .= GAMEVIDEO_LINK; break;
+			case "vsocial": $output .= VSOCIAL_LINK; break;
 			case "dailymotion": $output.= 'Go to the blog entry to see the video!'; break;
 			case "garagetv": $output.= 'Go to the blog entry to see the video!'; break;
-			case "local": $output .= VIDEO_LINK; break;
+			case "local": $output .= LOCAL_LINK; break;
+			case "video": $output .= VIDEO_LINK; break;
 			default: break;
 		}
 		if ('true' == $ev_small) $output .= "</small>";
@@ -222,7 +237,7 @@ function embeddedvideo_plugin($content) {
 
 // required filters
 add_filter('the_content', 'embeddedvideo_plugin');
-add_filter('comment_text', 'embeddedvideo_plugin');
+//add_filter('comment_text', 'embeddedvideo_plugin');
 
 //build admin interface
 function embeddedvideo_option_page() {
@@ -307,6 +322,8 @@ global $wpdb, $table_prefix;
 	<div style="width:75%;" class="wrap" id="embeddedvideo_options_panel">
 	<h2>Embedded Video</h2>
 
+	<a href="http://www.oscandy.com/"><img src="/wp-content/plugins/embedded-video/embedded-video-logo.png" title="Logo by Azzam/OpenSource Solutions Blog" alt="Logo by OpenSource Solutions Blog" align="right" /></a>
+
 	<p><strong>Edit the prefix of the linktext and the width of the embedded flash object!</strong><br />For detailed information see the <a href="http://www.jovelstefan.de/embedded-video/" title="Plugin Page">plugin page</a>.</p>
 
 	<p><i>Examples for the prefix settings:</i><br />
@@ -326,14 +343,14 @@ global $wpdb, $table_prefix;
 		</form>
 	</div>
 	<p>The following video portals are currently supported:<br/>
-	YouTube, Google Video, dailymotion, MyVideo, Clipfish, Sevenload, Revver, Metacaf&eacute;, Yahoo! Video, ifilm, MySpace Video, Brightcove, aniBOOM, vimeo, GUBA, Garage TV, GameVideos</p>
+	YouTube, Google Video, dailymotion, MyVideo, Clipfish, Sevenload, Revver, Metacaf&eacute;, Yahoo! Video, ifilm, MySpace Video, Brightcove, aniBOOM, vimeo, GUBA, Garage TV, GameVideos, vSocial</p>
 
 	<h3>Preview</h3>
 	<div class="wrap"><p>Your current settings produce the following output:</p>
-	<p><?php if ('true' == get_option('embeddedvideo_pluginlink')) echo '<small>embedded by <a href="http://www.jovelstefan.de/embedded-video/" title="Plugin Page"><em>WP Embedded Video</em></a></small><br />'; ?>
+	<p><?php if ('true' == get_option('embeddedvideo_pluginlink')) echo '<small>embedded by <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="Plugin Page"><em>Embedded Video with Link</em></a></small><br />'; ?>
 	<object type="application/x-shockwave-flash" data="http://www.youtube.com/v/nglMDkUbRSk" width="<?php echo get_option('embeddedvideo_width'); ?>" height="<?php echo floor(get_option('embeddedvideo_width')*14/17); ?>"><param name="movie" value="http://www.youtube.com/v/nglMDkUbRSk" /></object><br />
-	<?php $ev_issmall = get_option('embeddedvideo_small'); if ('true' == $ev_issmall) echo "<small>"; ?>
-	<a title="YouTube" href="http://www.youtube.com/watch?v=nglMDkUbRSk">YouTube <?php echo get_option('embeddedvideo_prefix'); if ('true' == get_option('embeddedvideo_space')) echo "&nbsp;"; ?>blablabla</a><?php if ('true' == $ev_issmall) echo "</small>"; ?>
+	<?php if ('false' == get_option('embeddedvideo_shownolink')) { $ev_issmall = get_option('embeddedvideo_small'); if ('true' == $ev_issmall) echo "<small>"; ?>
+	<a title="YouTube" href="http://www.youtube.com/watch?v=nglMDkUbRSk">YouTube <?php echo get_option('embeddedvideo_prefix'); if ('true' == get_option('embeddedvideo_space')) echo "&nbsp;"; ?>blablabla</a><?php if ('true' == $ev_issmall) echo "</small>"; } ?>
 	</p></div>
 
 	<p>Check the <a href="http://www.jovelstefan.de/embedded-video/" title="Embedded Video Plugin Page">plugin page</a> for updates regularly!<br />

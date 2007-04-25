@@ -9,7 +9,7 @@ function embeddedvideo_insert(postid) {
 		var template = new Array();
 
 		template['file'] = tinyMCE.baseURL + '/../../../wp-content/plugins/embedded-video/embedded-video-popup.php?post='+postnumber;
-		template['width'] = 360;
+		template['width'] = 440;
 		template['height'] = 220;
 
 		args = {

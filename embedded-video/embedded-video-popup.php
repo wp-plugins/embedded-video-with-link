@@ -93,7 +93,7 @@ else
 			height: 165px;
 			padding-top: 5px;
 		}
-		#portal_insert, #portal_cancel, #select_insert, #select_cancel, #upload_insert, #upload_cancel {
+		#portal_insert, #portal_cancel, #select_insert, #select_cancel, #upload_insert, #upload_cancel, #remote_insert, #remote_cancel {
 					font: 13px Verdana, Arial, Helvetica, sans-serif;
 					height: auto;
 					width: auto;
@@ -108,7 +108,7 @@ else
 					color: rgb(51, 51, 51);
 					padding: 0.25em 0.75em;
 				}
-		#portal_insert:active, #portal_cancel:active, #select_insert:active, #select_cancel:active, #upload_insert:active, #upload_cancel:active {
+		#portal_insert:active, #portal_cancel:active, #select_insert:active, #select_cancel:active, #upload_insert:active, #upload_cancel:active, #remote_insert:active, #remote_cancel:active {
 					background: #f4f4f4;
 					border-left-color: #999;
 					border-top-color: #999;
@@ -122,7 +122,8 @@ else
     <ul>
       <li id="portal_tab" class="current"><span><a href="javascript:mcTabs.displayTab('portal_tab','portal_panel');" onmousedown="return false;">Portal video</a></span></li>
       <?php if ($attachments) { ?><li id="select_tab"><span><a href="javascript:mcTabs.displayTab('select_tab','select_panel');" onmousedown="return false;">Local video</a></span></li><?php } ?>
-      <li id="upload_tab"><span><a href="javascript:mcTabs.displayTab('upload_tab','upload_panel');" onmousedown="return false;">Upload new video</a></span></li>
+      <li id="upload_tab"><span><a href="javascript:mcTabs.displayTab('upload_tab','upload_panel');" onmousedown="return false;">Upload video</a></span></li>
+      <li id="remote_tab"><span><a href="javascript:mcTabs.displayTab('remote_tab','remote_panel');" onmousedown="return false;">Video URL</a></span></li>
     </ul>
   </div>
 
@@ -154,6 +155,7 @@ else
                     <option value="guba">GUBA</option>
                     <option value="garagetv">Garage TV</option>
                     <option value="gamevideo">GameVideos</option>
+                    <option value="vsocial">vSocial</option>
                   </select>
                   </td>
                 </tr>
@@ -308,6 +310,51 @@ else
     </form>
 
   </div>
+
+
+  <div id="remote_panel" class="panel">
+    <form name="remote_form" action="#">
+        <table border="0" cellpadding="4" cellspacing="0">
+          <input name="portal" type="hidden" id="remote_portal" value="video" />
+          <tr>
+            <td nowrap="nowrap">Insert Video URL:</td>
+            <td>
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td><input name="vid" type="text" id="remote_vid" value="" style="width: 200px"></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap"></td>
+            <td>
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td><input name="nolink" type="checkbox" id="remote_nolink" onClick="disable_enable(this, this.form.linktext);" /></td>
+                  <td>Show video without link</td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap">Linktext:</td>
+            <td>
+              <table border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                  <td><input name="linktext" type="text" id="remote_linktext" value="<?php echo $_GET['linktext']; ?>" style="width: 200px"></td>
+                </tr>
+              </table></td>
+          </tr>
+          <tr>
+            <td><input type="submit" id="remote_insert" name="insert" value="{$lang_insert}" onclick="ev_checkData(this.form);" />
+            </td>
+            <td align="right"><input type="button" id="remote_cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" /></td>
+          </tr>
+        </table>
+      <input type="hidden" name="tab" value="remote" />
+    </form>
+  </div>
+
 </div>
 
 </body>
