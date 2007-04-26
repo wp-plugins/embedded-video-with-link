@@ -10,6 +10,8 @@ Easy embedding of videos from lots of portals or local video files of many file 
 
 == Description ==
 
+Please rate this plugin!
+
 The plugin is made for easily embedding videos into a blog post. The videos can be integrated from external portals (like YouTube, Google Video and many many others) or they can be uploaded to the web server or a remote server and integrated as well. Additionally a corresponding link to the video on the particular video portal page or a download link to the local file can be generated automatically, if demanded. The linktext is also configurable individually.
 Furthermore a fixed prefix for the linktext can be determined. 
 The videos can be integrated easily by using the built-in WYSIWYG editor. The plugin generates XHTML-valid code an works with WP 2.0.x and 2.1.x
