@@ -4,7 +4,7 @@ Donate link: http://www.jovelstefan.de/embedded-video/
 Tags: embedding, video, embed, portal, youtube, sevenload, google, myvideo, clipfish, revver, yahoo, metacafe, ifilm, myspace, brightcove, aniboom, guba, dailymotion, vimeo, garage, garage tv, gamevideos, flash, vsocial, editor, plugin, wysiwyg, post
 Requires at least: 2.0
 Tested up to: 2.1.3
-Stable tag: 3.3
+Stable tag: 3.3.1
 
 Easy embedding of videos from lots of portals or local video files of many file formats with optional generation of a corresponding link.
 
@@ -55,6 +55,14 @@ Note: If you want to use the Flash Video Player commercially, a license fee has 
 == Configuration ==
 
 The configuration options are simple and do not need explanation. See the administration panel of the plugin in your WP admin frontend.
+
+== Screenshots ==
+
+1. Integrated into WYSIWYG editor with own video embedding icon.
+2. Choose video portal, insert video ID and link text, done.
+3. Select local video file, type in link text, done.
+4. Upload video files from within the plugin interface and insert it in the next step.
+5. Insert any possible video file by typing in it's URL and the demanded link text. Done.
 
 == More ==
 

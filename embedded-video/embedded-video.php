@@ -3,7 +3,7 @@
 Plugin Name: Embedded Video with Link
 Plugin URI: http://www.jovelstefan.de/embedded-video/
 Description: Easy embedding of videos from various portals or local video files with corresponding link. <a href="options-general.php?page=embeddedvideo_options_page">Configure...</a>
-Version: 3.3
+Version: 3.3.1
 License: GPL
 Author: Stefan He&szlig;
 Author URI: http://www.jovelstefan.de
@@ -40,48 +40,27 @@ define("GENERAL_WIDTH", get_option('embeddedvideo_width'));
 /***********************/
 
 // format definitions
-define("YOUTUBE_RATIO", 14/17);
-define("YOUTUBE_HEIGHT", floor(GENERAL_WIDTH*YOUTUBE_RATIO));
-define("GOOGLE_RATIO", 14/17);
-define("GOOGLE_HEIGHT", floor(GENERAL_WIDTH*GOOGLE_RATIO));
-define("MYVIDEO_RATIO", 367/425);
-define("MYVIDEO_HEIGHT", floor(GENERAL_WIDTH*MYVIDEO_RATIO));
-define("CLIPFISH_RATIO", 95/116);
-define("CLIPFISH_HEIGHT", floor(GENERAL_WIDTH*CLIPFISH_RATIO));
-define("SEVENLOAD_RATIO", 313/380);
-define("SEVENLOAD_HEIGHT", floor(GENERAL_WIDTH*SEVENLOAD_RATIO));
-define("REVVER_RATIO", 49/60);
-define("REVVER_HEIGHT", floor(GENERAL_WIDTH*REVVER_RATIO));
-define("METACAFE_RATIO", 69/80);
-define("METACAFE_HEIGHT", floor(GENERAL_WIDTH*METACAFE_RATIO));
-define("YAHOO_RATIO", 14/17);
-define("YAHOO_HEIGHT", floor(GENERAL_WIDTH*YAHOO_RATIO));
-define("IFILM_RATIO", 365/448);
-define("IFILM_HEIGHT", floor(GENERAL_WIDTH*IFILM_RATIO));
-define("MYSPACE_RATIO", 173/215);
-define("MYSPACE_HEIGHT", floor(GENERAL_WIDTH*MYSPACE_RATIO));
-define("BRIGHTCOVE_RATIO", 206/243);
-define("BRIGHTCOVE_HEIGHT", floor(GENERAL_WIDTH*BRIGHTCOVE_RATIO));
-define("QUICKTIME_RATIO", 3/4);
-define("QUICKTIME_HEIGHT", floor(GENERAL_WIDTH*QUICKTIME_RATIO));
-define("VIDEO_RATIO", 3/4);
-define("VIDEO_HEIGHT", floor(GENERAL_WIDTH*VIDEO_RATIO));
-define("ANIBOOM_RATIO", 93/112);
-define("ANIBOOM_HEIGHT", floor(GENERAL_WIDTH*ANIBOOM_RATIO));
-define("FLASHPLAYER_RATIO", 93/112);
-define("FLASHPLAYER_HEIGHT", floor(GENERAL_WIDTH*FLASHPLAYER_RATIO));
-define("VIMEO_RATIO", 3/4);
-define("VIMEO_HEIGHT", floor(GENERAL_WIDTH*VIMEO_RATIO));
-define("GUBA_RATIO", 72/75);
-define("GUBA_HEIGHT", floor(GENERAL_WIDTH*GUBA_RATIO));
-define("DAILYMOTION_RATIO", 334/425);
-define("DAILYMOTION_HEIGHT", floor(GENERAL_WIDTH*DAILYMOTION_RATIO));
-define("GARAGE_RATIO", 289/430);
-define("GARAGE_HEIGHT", floor(GENERAL_WIDTH*GARAGE_RATIO));
-define("GAMEVIDEO_RATIO", 3/4);
-define("GAMEVIDEO_HEIGHT", floor(GENERAL_WIDTH*GAMEVIDEO_RATIO));
-define("VSOCIAL_RATIO", 40/41);
-define("VSOCIAL_HEIGHT", floor(GENERAL_WIDTH*VSOCIAL_RATIO));
+define("YOUTUBE_HEIGHT", floor(GENERAL_WIDTH*14/17));
+define("GOOGLE_HEIGHT", floor(GENERAL_WIDTH*14/17));
+define("MYVIDEO_HEIGHT", floor(GENERAL_WIDTH*367/425));
+define("CLIPFISH_HEIGHT", floor(GENERAL_WIDTH*95/116));
+define("SEVENLOAD_HEIGHT", floor(GENERAL_WIDTH*313/380));
+define("REVVER_HEIGHT", floor(GENERAL_WIDTH*49/60));
+define("METACAFE_HEIGHT", floor(GENERAL_WIDTH*69/80));
+define("YAHOO_HEIGHT", floor(GENERAL_WIDTH*14/17));
+define("IFILM_HEIGHT", floor(GENERAL_WIDTH*365/448));
+define("MYSPACE_HEIGHT", floor(GENERAL_WIDTH*173/215));
+define("BRIGHTCOVE_HEIGHT", floor(GENERAL_WIDTH*206/243));
+define("QUICKTIME_HEIGHT", floor(GENERAL_WIDTH*3/4));
+define("VIDEO_HEIGHT", floor(GENERAL_WIDTH*3/4));
+define("ANIBOOM_HEIGHT", floor(GENERAL_WIDTH*93/112));
+define("FLASHPLAYER_HEIGHT", floor(GENERAL_WIDTH*93/112));
+define("VIMEO_HEIGHT", floor(GENERAL_WIDTH*3/4));
+define("GUBA_HEIGHT", floor(GENERAL_WIDTH*72/75));
+define("DAILYMOTION_HEIGHT", floor(GENERAL_WIDTH*334/425));
+define("GARAGE_HEIGHT", floor(GENERAL_WIDTH*289/430));
+define("GAMEVIDEO_HEIGHT", floor(GENERAL_WIDTH*3/4));
+define("VSOCIAL_HEIGHT", floor(GENERAL_WIDTH*40/41));
 
 // object targets and links
 define("YOUTUBE_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.youtube.com/v/###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".YOUTUBE_HEIGHT."\"><param name=\"movie\" value=\"http://www.youtube.com/v/###VID###\" /><param name=\"autostart\" value=\"true\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");

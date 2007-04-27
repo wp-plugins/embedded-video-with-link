@@ -133,7 +133,7 @@ else
     <form name="portal_form" action="#">
         <table border="0" cellpadding="4" cellspacing="0">
           <tr>
-            <td nowrap="nowrap">Select Video Portal:</td>
+            <td nowrap="nowrap">Select video portal:</td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -162,7 +162,7 @@ else
               </table></td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Insert Video ID:</td>
+            <td nowrap="nowrap">Insert video ID:</td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -182,7 +182,7 @@ else
             </td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Linktext:</td>
+            <td nowrap="nowrap">Link text:</td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -239,7 +239,7 @@ else
             </td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Linktext:</td>
+            <td nowrap="nowrap">Link text:</td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -317,7 +317,7 @@ else
         <table border="0" cellpadding="4" cellspacing="0">
           <input name="portal" type="hidden" id="remote_portal" value="video" />
           <tr>
-            <td nowrap="nowrap">Insert Video URL:</td>
+            <td nowrap="nowrap">Insert video URL:</td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -337,7 +337,7 @@ else
             </td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Linktext:</td>
+            <td nowrap="nowrap">Link text:</td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
