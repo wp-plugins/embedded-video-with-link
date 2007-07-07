@@ -1,9 +1,10 @@
 <?php
+
 /*
 Plugin Name: Embedded Video with Link
 Plugin URI: http://www.jovelstefan.de/embedded-video/
 Description: Easy embedding of videos from various portals or local video files with corresponding link. <a href="options-general.php?page=embeddedvideo_options_page">Configure...</a>
-Version: 3.3.1
+Version: 3.4
 License: GPL
 Author: Stefan He&szlig;
 Author URI: http://www.jovelstefan.de
@@ -15,6 +16,8 @@ Contact mail: jovelstefan@gmx.de
 
 if ('embedded-video.php' == basename($_SERVER['SCRIPT_FILENAME']))
 	die ('Please do not access this file directly. Thanks!');
+
+load_plugin_textdomain('embeddedvideo','/wp-content/plugins/embedded-video');
 
 // initiate options and variables
 add_option('embeddedvideo_prefix', "Direkt");
@@ -61,6 +64,7 @@ define("DAILYMOTION_HEIGHT", floor(GENERAL_WIDTH*334/425));
 define("GARAGE_HEIGHT", floor(GENERAL_WIDTH*289/430));
 define("GAMEVIDEO_HEIGHT", floor(GENERAL_WIDTH*3/4));
 define("VSOCIAL_HEIGHT", floor(GENERAL_WIDTH*40/41));
+define("VEOH_HEIGHT", floor(GENERAL_WIDTH*73/90));
 
 // object targets and links
 define("YOUTUBE_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.youtube.com/v/###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".YOUTUBE_HEIGHT."\"><param name=\"movie\" value=\"http://www.youtube.com/v/###VID###\" /><param name=\"autostart\" value=\"true\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
@@ -97,27 +101,30 @@ define("GAMEVIDEO_TARGET", "<object type=\"application/x-shockwave-flash\" data=
 define("GAMEVIDEO_LINK", "<a title=\"GameVideos\" href=\"http://gamevideos.com/video/id/###VID###\">GameVideos ###TXT######THING###</a>");
 define("VSOCIAL_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://static.vsocial.com/flash/ups.swf?d=###VID###&a=0\" width=\"".GENERAL_WIDTH."\" height=\"".VSOCIAL_HEIGHT."\"><param name=\"movie\" value=\"http://static.vsocial.com/flash/ups.swf?d=###VID###&a=0\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
 define("VSOCIAL_LINK", "<a title=\"vSocial\" href=\"http://www.vsocial.com/video/?d=###VID###\">vSocial ###TXT######THING###</a>");
+define("VEOH_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.veoh.com/videodetails2.swf?player=videodetailsembedded&type=v&permalinkId=###VID###&id=anonymous\" width=\"".GENERAL_WIDTH."\" height=\"".VEOH_HEIGHT."\"><param name=\"movie\" value=\"http://www.veoh.com/videodetails2.swf?player=videodetailsembedded&type=v&permalinkId=###VID###&id=anonymous\" /><param name=\"autostart\" value=\"true\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
+define("VEOH_LINK", "<a title=\"Veoh\" href=\"http://www.veoh.com/videos/###VID###\">Veoh ###TXT######THING###</a>");
+
 
 define("LOCAL_QUICKTIME_TARGET", "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\" codebase=\"http://www.apple.com/qtactivex/qtplugin.cab\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\"><param name=\"src\" value=\"".get_option('siteurl')."###VID###\" /><param name=\"autoplay\" value=\"false\" /><param name=\"pluginspage\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\" type=\"video/quicktime\"><param name=\"pluginurl\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><param name=\"autoplay\" value=\"false\" /></object><!--> <![endif]--></object><br />");
-define("LOCAL_FLASHPLAYER_TARGET", "<object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=".get_option('siteurl')."###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=true&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><br />");
+define("LOCAL_FLASHPLAYER_TARGET", "<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"".GENERAL_WIDTH."\" height=\"".FLASHPLAYER_HEIGHT."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param name=\"movie\" value=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" /><param value=\"file=".get_option('siteurl')."###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=".get_option('siteurl')."###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><!--> <![endif]--></object><br />");
 define("LOCAL_TARGET", "<object classid=\"clsid:22D6f312-B0F6-11D0-94AB-0080C74C7E95\" codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-oleobject\"><param name=\"filename\" value=\"".get_option('siteurl')."###VID###\" /><param name=\"autostart\" value=\"false\" /><param name=\"showcontrols\" value=\"true\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-mplayer2\"><param name=\"pluginurl\" value=\"http://www.microsoft.com/Windows/MediaPlayer/\" /><param name=\"ShowControls\" value=\"true\" /><param name=\"ShowStatusBar\" value=\"true\" /><param name=\"ShowDisplay\" value=\"true\" /><param name=\"Autostart\" value=\"0\" /></object><!--> <![endif]--></object><br />");
 define("LOCAL_LINK", "<a title=\"Video File\" href=\"".get_option('siteurl')."###VID###\">Download Video</a>");
 
 define("QUICKTIME_TARGET", "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\" codebase=\"http://www.apple.com/qtactivex/qtplugin.cab\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\"><param name=\"src\" value=\"###VID###\" /><param name=\"autoplay\" value=\"false\" /><param name=\"pluginspage\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><!--[if !IE]> <--><object data=\"###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\" type=\"video/quicktime\"><param name=\"pluginurl\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><param name=\"autoplay\" value=\"false\" /></object><!--> <![endif]--></object><br />");
-define("FLASHPLAYER_TARGET", "<object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=true&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><br />");
+define("FLASHPLAYER_TARGET", "<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"".GENERAL_WIDTH."\" height=\"".FLASHPLAYER_HEIGHT."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param name=\"movie\" value=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" /><param value=\"file=###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf?file=###VID###\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><!--> <![endif]--></object><br />");
 define("VIDEO_TARGET", "<object classid=\"clsid:22D6f312-B0F6-11D0-94AB-0080C74C7E95\" codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-oleobject\"><param name=\"filename\" value=\"###VID###\" /><param name=\"autostart\" value=\"false\" /><param name=\"showcontrols\" value=\"true\" /><!--[if !IE]> <--><object data=\"###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-mplayer2\"><param name=\"pluginurl\" value=\"http://www.microsoft.com/Windows/MediaPlayer/\" /><param name=\"ShowControls\" value=\"true\" /><param name=\"ShowStatusBar\" value=\"true\" /><param name=\"ShowDisplay\" value=\"true\" /><param name=\"Autostart\" value=\"0\" /></object><!--> <![endif]--></object><br />");
 define("VIDEO_LINK", "<a title=\"Video File\" href=\"###VID###\">Download Video</a>");
 
 // regular expressions
-define("REGEXP_1", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|local|video) ([[:graph:]]+) (nolink)\]/");
-define("REGEXP_2", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|local|video) ([[:graph:]]+) ([[:print:]]+)\]/");
-define("REGEXP_3", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|local|video) ([[:graph:]]+)\]/");
+define("REGEXP_1", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|veoh|local|video) ([[:graph:]]+) (nolink)\]/");
+define("REGEXP_2", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|veoh|local|video) ([[:graph:]]+) ([[:print:]]+)\]/");
+define("REGEXP_3", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|veoh|local|video) ([[:graph:]]+)\]/");
 
 // logic
 function embeddedvideo_plugin_callback($match) {
 	$output = '';
 	// insert plugin link
-	if ((!is_feed())&&('true' == get_option('embeddedvideo_pluginlink'))) $output .= '<small>embedded by <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="Plugin Page"><em>WP Embedded Video</em></a></small><br />';
+	if ((!is_feed())&&('true' == get_option('embeddedvideo_pluginlink'))) $output .= '<small>'.__('embedded by','embeddedvideo').' <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="'.__('plugin page','embeddedvideo').'"><em>Embedded Video</em></a></small><br />';
 
 	// insert video if not a feed
 	if ( !is_feed() ) {
@@ -140,6 +147,7 @@ function embeddedvideo_plugin_callback($match) {
 			case "vsocial": $output .= VSOCIAL_TARGET; break;
 			case "dailymotion": $output .= DAILYMOTION_TARGET; $match[3] = "nolink"; break;
 			case "garagetv": $output .= GARAGE_TARGET; $match[3] = "nolink"; break;
+			case "veoh": $output .= VEOH_TARGET; break;
 			case "local":
 				if (preg_match("%([[:print:]]+).(mov|qt|MOV|QT)$%", $match[2])) { $output .= LOCAL_QUICKTIME_TARGET; break; }
 				elseif (preg_match("%([[:print:]]+).(wmv|mpg|mpeg|mpe|asf|asx|wax|wmv|wmx|avi|WMV|MPG|MPEG|MPE|ASF|ASX|WAX|WMV|WMX|AVI)$%", $match[2])) { $output .= LOCAL_TARGET; break; }
@@ -180,6 +188,7 @@ function embeddedvideo_plugin_callback($match) {
 			case "vsocial": $output .= VSOCIAL_LINK; break;
 			case "dailymotion": $output.= 'Go to the blog entry to see the video!'; break;
 			case "garagetv": $output.= 'Go to the blog entry to see the video!'; break;
+			case "veoh": $output .= VEOH_LINK; break;
 			case "local": $output .= LOCAL_LINK; break;
 			case "video": $output .= VIDEO_LINK; break;
 			default: break;
@@ -257,12 +266,12 @@ global $wpdb, $table_prefix;
 		}
 
 		$ev_width = $_POST['embeddedvideo_width'];
-		if ($ev_width == "") $errs[] = "Object width must be set!";
-		elseif (($ev_width>800)||($ev_width<250)||(!preg_match("/^[0-9]{3}$/", $ev_width))) $errs[] = "Object width must be a number between 250 and 800!";
+		if ($ev_width == "") $errs[] = __('Object width must be set!','embeddedvideo');
+		elseif (($ev_width>800)||($ev_width<250)||(!preg_match("/^[0-9]{3}$/", $ev_width))) $errs[] = __('Object width must be a number between 250 and 800!','embeddedvideo');
 		else update_option('embeddedvideo_width', $ev_width);
 
 		if ( empty($errs) ) {
-			echo '<div id="message" class="updated fade"><p>Options updated!</p></div>';
+			echo '<div id="message" class="updated fade"><p>'.__('Options updated!','embeddedvideo').'</p></div>';
 		} else {
 			echo '<div id="message" class="error fade"><ul>';
 			foreach ( $errs as $name => $msg ) {
@@ -299,42 +308,45 @@ global $wpdb, $table_prefix;
 	?>
 
 	<div style="width:75%;" class="wrap" id="embeddedvideo_options_panel">
-	<h2>Embedded Video</h2>
+	<h2><?php echo _e('Embedded Video','embeddedvideo'); ?></h2>
 
-	<a href="http://www.oscandy.com/"><img src="/wp-content/plugins/embedded-video/embedded-video-logo.png" title="Logo by Azzam/OpenSource Solutions Blog" alt="Logo by OpenSource Solutions Blog" align="right" /></a>
+	<a href="http://www.oscandy.com/"><img src="/wp-content/plugins/embedded-video/embedded-video-logo.png" title="<?php echo _e('Logo by Azzam/OpenSource Solutions Blog') ?>" alt="<?php echo _e('Logo by Azzam/OpenSource Solutions Blog') ?>" align="right" /></a>
 
-	<p><strong>Edit the prefix of the linktext and the width of the embedded flash object!</strong><br />For detailed information see the <a href="http://www.jovelstefan.de/embedded-video/" title="Plugin Page">plugin page</a>.</p>
+	<p><strong><?php echo _e('Edit the prefix of the linktext and the width of the embedded flash object!','embeddedvideo'); ?></strong><br /><?php echo _e('For detailed information see the','embeddedvideo'); ?> <a href="http://www.jovelstefan.de/embedded-video/" title="<?php echo _e('plugin page','embeddedvideo'); ?>"><?php echo _e('plugin page','embeddedvideo'); ?></a>.</p>
 
-	<p><i>Examples for the prefix settings:</i><br />
-	If you type in <strong>[youtube abcd12345 fantastic video]</strong> and you choose the prefix <strong>"- Link to"</strong> with a following space, the linktext will be <strong>"YouTube - Link to fantastic video"</strong>.<br /><br />
-	If you type in <strong>[sevenload abcd12345 dings]</strong> and you choose the prefix <strong>"Direkt"</strong> without a following space, the linktext will be <strong>"Sevenload Direktdings"</strong>.</p>
+	<p><i><?php echo _e('Examples for the prefix settings:','embeddedvideo'); ?></i><br />
+	<?php echo _e('If you type in','embeddedvideo'); ?> <strong>[youtube abcd12345 super video]</strong> <?php echo _e('and you choose the prefix','embeddedvideo'); ?> <strong>"<?php echo _e('- Link to','embeddedvideo'); ?>"</strong> <?php echo _e('with a following space, the linktext will be','embeddedvideo'); ?> <strong>"<?php echo _e('YouTube - Link to super video','embeddedvideo'); ?>"</strong>.<br /><br />
+	<?php echo _e('If you type in','embeddedvideo'); ?> <strong>[sevenload abcd12345 dings]</strong> <?php echo _e('and you choose the prefix','embeddedvideo'); ?> <strong>"<?php echo _e('Direct','embeddedvideo'); ?>"</strong> <?php echo _e('without a following space, the linktext will be','embeddedvideo'); ?> <strong>"<?php echo _e('Sevenload Directdings','embeddedvideo'); ?>"</strong>.</p>
 	<div class="wrap">
 		<form method="post">
 			<div>
-			    <label for="embeddedvideo_shownolink" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_shownolink" id="embeddedvideo_shownolink" value="<?php echo get_option('embeddedvideo_shownolink') ?>" <?php echo $ev_shownolink; ?> /> Never show the video link (exception: feeds)</label><br />
-				Prefix: <input type="text" value="<?php echo get_option('embeddedvideo_prefix') ?>" name="embeddedvideo_prefix" id="embeddedvideo_prefix" /><br />
-				<label for="embeddedvideo_space" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_space" id="embeddedvideo_space" value="<?php echo get_option('embeddedvideo_space') ?>" <?php echo $ev_space; ?> /> Following space character</label><br />
-				<label for="embeddedvideo_small" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_small" id="embeddedvideo_small" value="<?php echo get_option('embeddedvideo_small') ?>" <?php echo $ev_small; ?> /> Use smaller font size for link</label><br />
-				Video object width (250-800):<input type="text" value="<?php echo get_option('embeddedvideo_width') ?>" name="embeddedvideo_width" id="embeddedvideo_width" size="5" maxlength="3" /><br />
-				<label for="embeddedvideo_pluginlink" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_pluginlink" id="embeddedvideo_pluginlink" value="<?php echo get_option('embeddedvideo_pluginlink') ?>" <?php echo $ev_pluginlink; ?> /> Show link to plugin page</label><br /><br />
-				<input type="submit" id="embeddedvideo_update_options" value="Save settings &raquo;" />
+				<label for="embeddedvideo_shownolink" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_shownolink" id="embeddedvideo_shownolink" value="<?php echo get_option('embeddedvideo_shownolink') ?>" <?php echo $ev_shownolink; ?> /> <?php echo _e('Never show the video link (exception: feeds)','embeddedvideo'); ?></label><br />
+				<?php echo _e('Prefix:','embeddedvideo'); ?> <input type="text" value="<?php echo get_option('embeddedvideo_prefix') ?>" name="embeddedvideo_prefix" id="embeddedvideo_prefix" /><br />
+				<label for="embeddedvideo_space" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_space" id="embeddedvideo_space" value="<?php echo get_option('embeddedvideo_space') ?>" <?php echo $ev_space; ?> /> <?php echo _e('Following space character','embeddedvideo'); ?></label><br />
+				<label for="embeddedvideo_small" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_small" id="embeddedvideo_small" value="<?php echo get_option('embeddedvideo_small') ?>" <?php echo $ev_small; ?> /> <?php echo _e('Use smaller font size for link','embeddedvideo'); ?></label><br />
+				<?php echo _e('Video object width','embeddedvideo'); ?> (250-800):<input type="text" value="<?php echo get_option('embeddedvideo_width') ?>" name="embeddedvideo_width" id="embeddedvideo_width" size="5" maxlength="3" /><br />
+				<label for="embeddedvideo_pluginlink" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_pluginlink" id="embeddedvideo_pluginlink" value="<?php echo get_option('embeddedvideo_pluginlink') ?>" <?php echo $ev_pluginlink; ?> /> <?php echo _e('Show link to plugin page','embeddedvideo'); ?></label><br /><br />
+				<input type="submit"  id="embeddedvideo_update_options" value="<?php echo _e('Save settings','embeddedvideo'); ?> &raquo;" />
 			</div>
 		</form>
 	</div>
-	<p>The following video portals are currently supported:<br/>
-	YouTube, Google Video, dailymotion, MyVideo, Clipfish, Sevenload, Revver, Metacaf&eacute;, Yahoo! Video, ifilm, MySpace Video, Brightcove, aniBOOM, vimeo, GUBA, Garage TV, GameVideos, vSocial</p>
+	<p><?php echo _e('The following video portals are currently supported:','embeddedvideo'); ?><br/>
+	YouTube, Google Video, dailymotion, MyVideo, Clipfish, Sevenload, Revver, Metacaf&eacute;, Yahoo! Video, ifilm, MySpace Video, Brightcove, aniBOOM, vimeo, GUBA, Garage TV, GameVideos, vSocial, Veoh</p>
 
-	<h3>Preview</h3>
-	<div class="wrap"><p>Your current settings produce the following output:</p>
-	<p><?php if ('true' == get_option('embeddedvideo_pluginlink')) echo '<small>embedded by <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="Plugin Page"><em>Embedded Video with Link</em></a></small><br />'; ?>
+	<h3><?php echo _e('Preview','embeddedvideo'); ?></h3>
+	<div class="wrap">
+	<p><?php echo _e('Your current settings produce the following output:','embeddedvideo'); ?></p>
+	<p><?php if ('true' == get_option('embeddedvideo_pluginlink')) echo '<small>'.__('embedded by','embeddedvideo').' <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="Plugin Page"><em>Embedded Video with Link</em></a></small><br />'; ?>
 	<object type="application/x-shockwave-flash" data="http://www.youtube.com/v/nglMDkUbRSk" width="<?php echo get_option('embeddedvideo_width'); ?>" height="<?php echo floor(get_option('embeddedvideo_width')*14/17); ?>"><param name="movie" value="http://www.youtube.com/v/nglMDkUbRSk" /></object><br />
 	<?php if ('false' == get_option('embeddedvideo_shownolink')) { $ev_issmall = get_option('embeddedvideo_small'); if ('true' == $ev_issmall) echo "<small>"; ?>
 	<a title="YouTube" href="http://www.youtube.com/watch?v=nglMDkUbRSk">YouTube <?php echo get_option('embeddedvideo_prefix'); if ('true' == get_option('embeddedvideo_space')) echo "&nbsp;"; ?>blablabla</a><?php if ('true' == $ev_issmall) echo "</small>"; } ?>
-	</p></div>
-
-	<p>Check the <a href="http://www.jovelstefan.de/embedded-video/" title="Embedded Video Plugin Page">plugin page</a> for updates regularly!<br />
-		Video icon by <a href="http://famfamfam.com" title="famfamfam">famfamfam</a>!
 	</p>
+	</div>
+
+	<p><?php echo _e('Check the','embeddedvideo'); ?> <a href="http://www.jovelstefan.de/embedded-video/" title="Embedded Video Plugin Page"><?php echo _e('plugin page','embeddedvideo'); ?></a> <?php echo _e('for updates regularly!','embeddedvideo'); ?><br />
+		<?php echo _e('Video icon by','embeddedvideo'); ?> <a href="http://famfamfam.com" title="famfamfam">famfamfam</a>!
+	</p>
+	</div>
 
 	<?php
 }

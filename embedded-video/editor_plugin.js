@@ -1,7 +1,11 @@
-var temp = tinyMCE.settings['language'];
-tinyMCE.settings['language'] = 'en';
-
-tinyMCE.importPluginLanguagePack('embeddedvideo', 'en');
+if (tinyMCE.settings['language'] != 'en' && tinyMCE.settings['language'] != 'de_de') {
+	var temp = tinyMCE.settings['language'];
+	tinyMCE.settings['language'] = 'en';
+	tinyMCE.importPluginLanguagePack('embeddedvideo','en');
+	tinyMCE.settings['language'] = temp;
+} else {
+	tinyMCE.importPluginLanguagePack('embeddedvideo','en, de_de');
+}
 
 tinyMCE.settings['language'] = temp;
 

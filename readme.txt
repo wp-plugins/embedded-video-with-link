@@ -1,7 +1,7 @@
 === Embedded Video with Link ===
 Contributors: jovelstefan
 Donate link: http://www.jovelstefan.de/embedded-video/
-Tags: embedding, video, embed, portal, youtube, sevenload, google, myvideo, clipfish, revver, yahoo, metacafe, ifilm, myspace, brightcove, aniboom, guba, dailymotion, vimeo, garage, garage tv, gamevideos, flash, vsocial, editor, plugin, wysiwyg, post
+Tags: embedding, video, embed, portal, youtube, sevenload, google, myvideo, clipfish, revver, yahoo, metacafe, ifilm, myspace, brightcove, aniboom, guba, dailymotion, vimeo, garage, garage tv, gamevideos, flash, vsocial, editor, plugin, wysiwyg, post, veoh
 Requires at least: 2.0
 Tested up to: 2.1.3
 Stable tag: 3.3.1
@@ -36,6 +36,7 @@ The following video portals are currently supported:
 * Garage TV
 * GameVideos
 * vSocial
+* Veoh
 
 The following file formats for local and remote files are currently supported:
 

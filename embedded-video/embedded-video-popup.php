@@ -113,17 +113,17 @@ else
 					border-left-color: #999;
 					border-top-color: #999;
 	</style>
-	<title>Embed Video</title>
+	<title><?php echo _e('Embed Video','embeddedvideo'); ?></title>
 </head>
 
 <body id="embeddedvideo" onload="<?php $tab = (isset($_GET['tab'])) ? $_GET['tab'] : $_POST['tab']; echo "mcTabs.displayTab('".$tab."_tab','".$tab."_panel');"; if ($_GET['tab']=='portal') echo "document.forms.portal_form.vid.style.backgroundColor = '#f30';" ?>tinyMCEPopup.executeOnLoad('init();');document.body.style.display='';" style="display: none">
 
   <div class="tabs">
     <ul>
-      <li id="portal_tab" class="current"><span><a href="javascript:mcTabs.displayTab('portal_tab','portal_panel');" onmousedown="return false;">Portal video</a></span></li>
-      <?php if ($attachments) { ?><li id="select_tab"><span><a href="javascript:mcTabs.displayTab('select_tab','select_panel');" onmousedown="return false;">Local video</a></span></li><?php } ?>
-      <li id="upload_tab"><span><a href="javascript:mcTabs.displayTab('upload_tab','upload_panel');" onmousedown="return false;">Upload video</a></span></li>
-      <li id="remote_tab"><span><a href="javascript:mcTabs.displayTab('remote_tab','remote_panel');" onmousedown="return false;">Video URL</a></span></li>
+      <li id="portal_tab" class="current"><span><a href="javascript:mcTabs.displayTab('portal_tab','portal_panel');" onmousedown="return false;"><?php echo _e('Portal video','embeddedvideo'); ?></a></span></li>
+      <?php if ($attachments) { ?><li id="select_tab"><span><a href="javascript:mcTabs.displayTab('select_tab','select_panel');" onmousedown="return false;"><?php echo _e('Local video','embeddedvideo'); ?></a></span></li><?php } ?>
+      <li id="upload_tab"><span><a href="javascript:mcTabs.displayTab('upload_tab','upload_panel');" onmousedown="return false;"><?php echo _e('Upload video','embeddedvideo'); ?></a></span></li>
+      <li id="remote_tab"><span><a href="javascript:mcTabs.displayTab('remote_tab','remote_panel');" onmousedown="return false;"><?php echo _e('Video URL','embeddedvideo'); ?></a></span></li>
     </ul>
   </div>
 
@@ -133,7 +133,7 @@ else
     <form name="portal_form" action="#">
         <table border="0" cellpadding="4" cellspacing="0">
           <tr>
-            <td nowrap="nowrap">Select video portal:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Select video portal:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -156,17 +156,18 @@ else
                     <option value="garagetv">Garage TV</option>
                     <option value="gamevideo">GameVideos</option>
                     <option value="vsocial">vSocial</option>
+                    <option value="veoh">Veoh</option>
                   </select>
                   </td>
                 </tr>
               </table></td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Insert video ID:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Insert video ID:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td><input name="vid" type="text" id="portal_vid" value="" style="width: 200px"></td>
+                  <td><input name="vid" type="text" id="portal_vid" value="" style="width: 200px" /></td>
                 </tr>
               </table></td>
           </tr>
@@ -176,13 +177,13 @@ else
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td><input name="nolink" type="checkbox" id="portal_nolink" onClick="disable_enable(this, this.form.linktext);" /></td>
-                  <td>Show video without link</td>
+                  <td><?php echo _e('Show video without link','embeddedvideo'); ?></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Link text:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Link text:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -191,7 +192,8 @@ else
               </table></td>
           </tr>
           <tr>
-            <td><input type="submit" id="portal_insert" name="insert" value="{$lang_insert}" onclick="ev_checkData(this.form);" />
+            <td>
+	    <input type="submit" id="portal_insert" name="insert" value="{$lang_insert}" onclick="ev_checkData(this.form);" />
             </td>
             <td align="right"><input type="button" id="portal_cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" /></td>
           </tr>
@@ -212,7 +214,7 @@ else
     <form name="select_form" action="#">
         <table border="0" cellpadding="4" cellspacing="0">
           <tr>
-            <td nowrap="nowrap">Select video file:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Select video file:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -233,13 +235,13 @@ else
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td><input name="nolink" type="checkbox" id="select_nolink" onClick="disable_enable(this, this.form.linktext);" /></td>
-                  <td>Show video without link</td>
+                  <td><?php echo _e('Show video without link','embeddedvideo'); ?></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Link text:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Link text:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -270,7 +272,7 @@ else
             </tr>
           <?php } ?>
           <tr>
-            <td nowrap="nowrap">Local video file:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Local video file:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -280,7 +282,7 @@ else
             </td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Title:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Title:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -290,7 +292,7 @@ else
             </td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Description:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Description:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -300,7 +302,7 @@ else
             </td>
           </tr>
           <tr>
-            <td><input type="submit" id="upload_insert" name="insert" value="Upload" />
+            <td><input type="submit" id="upload_insert" name="insert" value="<?php echo _e('Upload','embeddedvideo'); ?>" />
             </td>
             <td align="right"><input type="button" id="upload_cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" /></td>
           </tr>
@@ -317,7 +319,7 @@ else
         <table border="0" cellpadding="4" cellspacing="0">
           <input name="portal" type="hidden" id="remote_portal" value="video" />
           <tr>
-            <td nowrap="nowrap">Insert video URL:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Insert video URL:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
@@ -326,18 +328,18 @@ else
               </table></td>
           </tr>
           <tr>
-            <td nowrap="nowrap"></td>
+            <td nowrap="nowrap" style="text-align:right;"></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
                   <td><input name="nolink" type="checkbox" id="remote_nolink" onClick="disable_enable(this, this.form.linktext);" /></td>
-                  <td>Show video without link</td>
+                  <td><?php echo _e('Show video without link','embeddedvideo'); ?></td>
                 </tr>
               </table>
             </td>
           </tr>
           <tr>
-            <td nowrap="nowrap">Link text:</td>
+            <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Link text:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
