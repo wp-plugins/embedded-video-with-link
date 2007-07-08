@@ -160,7 +160,7 @@ function embeddedvideo_plugin_callback($match) {
 		}
 	} else {
 		// if a feed, overwrite nolink option
-		$match[3] = "Link";
+		$match[3] = "video link";
 	}
 	// if shownolink option false or if feed, show link
 	if ('false' == get_option('embeddedvideo_shownolink')||is_feed()) {
