@@ -17,8 +17,6 @@ Contact mail: jovelstefan@gmx.de
 if ('embedded-video.php' == basename($_SERVER['SCRIPT_FILENAME']))
 	die ('Please do not access this file directly. Thanks!');
 
-load_plugin_textdomain('embeddedvideo','/wp-content/plugins/embedded-video');
-
 // initiate options and variables
 add_option('embeddedvideo_prefix', "Direkt");
 add_option('embeddedvideo_space', "false");
@@ -355,6 +353,13 @@ function embeddedvideo_add_options_panel() {
 	add_options_page('Embedded Video', 'Embedded Video', 1, 'embeddedvideo_options_page', 'embeddedvideo_option_page');
 }
 add_action('admin_menu', 'embeddedvideo_add_options_panel');
+
+
+function embeddedvideo_init() {
+	if (function_exists('load_plugin_textdomain')) load_plugin_textdomain('embeddedvideo','/wp-content/plugins/embedded-video');
+}
+add_action('init', 'embeddedvideo_init');
+
 
 /***************************************
  Editor QuickButton
