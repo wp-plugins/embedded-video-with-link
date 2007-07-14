@@ -310,7 +310,7 @@ global $wpdb, $table_prefix;
 
 	<a href="http://www.oscandy.com/"><img src="/wp-content/plugins/embedded-video/embedded-video-logo.png" title="<?php echo _e('Logo by Azzam/OpenSource Solutions Blog') ?>" alt="<?php echo _e('Logo by Azzam/OpenSource Solutions Blog') ?>" align="right" /></a>
 
-	<p><strong><?php echo _e('Edit the prefix of the linktext and the width of the embedded flash object!','embeddedvideo'); ?></strong><br /><?php echo _e('For detailed information see the','embeddedvideo'); ?> <a href="http://www.jovelstefan.de/embedded-video/" title="<?php echo _e('plugin page','embeddedvideo'); ?>"><?php echo _e('plugin page','embeddedvideo'); ?></a>.</p>
+	<p><strong><?php echo _e('Edit the prefix of the linktext and the width of the embedded flash object!','embeddedvideo'); ?></strong><br /><?php echo _e('For detailed information see the','embeddedvideo'); ?> <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="<?php echo _e('plugin page','embeddedvideo'); ?>"><?php echo _e('plugin page','embeddedvideo'); ?></a>.</p>
 
 	<p><i><?php echo _e('Examples for the prefix settings:','embeddedvideo'); ?></i><br />
 	<?php echo _e('If you type in','embeddedvideo'); ?> <strong>[youtube abcd12345 super video]</strong> <?php echo _e('and you choose the prefix','embeddedvideo'); ?> <strong>"<?php echo _e('- Link to','embeddedvideo'); ?>"</strong> <?php echo _e('with a following space, the linktext will be','embeddedvideo'); ?> <strong>"<?php echo _e('YouTube - Link to super video','embeddedvideo'); ?>"</strong>.<br /><br />
@@ -341,7 +341,7 @@ global $wpdb, $table_prefix;
 	</p>
 	</div>
 
-	<p><?php echo _e('Check the','embeddedvideo'); ?> <a href="http://www.jovelstefan.de/embedded-video/" title="Embedded Video Plugin Page"><?php echo _e('plugin page','embeddedvideo'); ?></a> <?php echo _e('for updates regularly!','embeddedvideo'); ?><br />
+	<p><?php echo _e('Check the','embeddedvideo'); ?> <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="Embedded Video Plugin Page"><?php echo _e('plugin page','embeddedvideo'); ?></a> <?php echo _e('for updates regularly!','embeddedvideo'); ?><br />
 		<?php echo _e('Video icon by','embeddedvideo'); ?> <a href="http://famfamfam.com" title="famfamfam">famfamfam</a>!
 	</p>
 	</div>
