@@ -1,24 +1,16 @@
-function embeddedvideo_insert(postid) {
-	
+function embeddedvideo_insert() {
 	if(window.tinyMCE) {
-		var postnumber;
-		
-		if (postid == 'wp21') postnumber = document.getElementById('post_ID').value;
-		else postnumber = (postid == 0) ? document.getElementsByName('temp_ID')[0].value : postid;
-		
-		var template = new Array();
+		var postnumber = document.getElementById('post_ID').value;		
 
-		template['file'] = tinyMCE.baseURL + '/../../../wp-content/plugins/embedded-video/embedded-video-popup.php?post='+postnumber;
-		template['width'] = 440;
-		template['height'] = 220;
-
-		args = {
-			resizable : 'no',
-			scrollbars : 'no',
-			inline : 'yes'
-		};
-
-		tinyMCE.openWindow(template, args);
+		tinyMCE.activeEditor.windowManager.open( {
+				url : tinyMCE.activeEditor.documentBaseURI + '../../../wp-content/plugins/embedded-video/embedded-video-popup.php?post='+postnumber,
+				width : 440,
+				height : 220,
+				resizable : 'no',
+				scrollbars : 'no',
+				inline : 'yes'
+			}, { /* custom parameter space */ }
+		);
 		return true;
 	} else {
 		window.alert('This function is only available in the WYSIWYG editor');
@@ -29,11 +21,9 @@ function embeddedvideo_insert(postid) {
 function ev_insertVideoCode(portal, vid, linktext) {
 	var text = (linktext == '') ? ('['+ portal + ' ' + vid + ']') : ('['+ portal + ' ' + vid + ' ' + linktext + ']');
 	if(window.tinyMCE) {
-		window.tinyMCE.execInstanceCommand('content', 'mceInsertContent', false, text);
-		tinyMCE.execCommand("mceCleanup");
-		tinyMCE.selectedInstance.repaint();
-	} else {
-		edInsertContent(edCanvas, text);
+		var ed = tinyMCE.activeEditor;
+		ed.execCommand('mceInsertContent', false, '<p>' + text + '</p>');
+		ed.execCommand('mceCleanup');
 	}
 	return true;
 }
@@ -64,7 +54,7 @@ function dailymotion(objSelectBox, objTextfield, objCheckbox) {
 		objTextfield.style.backgroundColor = '#ccc';
 		objTextfield.value = '';
 	}
-	objCheckbox.disabled = (objSelectBox.value=='dailymotion') ? true : false;
+	objCheckbox.disabled = (objSelectBox.value=='dailymotion' || objSelectBox.value=='garagetv') ? true : false;
 }
 
 function init() {

@@ -1,10 +1,10 @@
 <?php
 
 /*
-Plugin Name: Embedded Video with Link
+Plugin Name: Embedded Video
 Plugin URI: http://www.jovelstefan.de/embedded-video/
 Description: Easy embedding of videos from various portals or local video files with corresponding link. <a href="options-general.php?page=embeddedvideo_options_page">Configure...</a>
-Version: 3.4
+Version: 4.0b
 License: GPL
 Author: Stefan He&szlig;
 Author URI: http://www.jovelstefan.de
@@ -12,22 +12,30 @@ Author URI: http://www.jovelstefan.de
 Contact mail: jovelstefan@gmx.de
 */
 
+
+// prevent plugin from being used with wp versions under 2.5; otherwise do nothing!
+global $wp_db_version;
+if ( $wp_db_version >= 7558 ) {
+
 // prevent file from being accessed directly
 
 if ('embedded-video.php' == basename($_SERVER['SCRIPT_FILENAME']))
 	die ('Please do not access this file directly. Thanks!');
 
+define("EV_VERSION", 400);
+
 // initiate options and variables
-add_option('embeddedvideo_prefix', "Direkt");
-add_option('embeddedvideo_space', "false");
-add_option('embeddedvideo_width', 425);
-add_option('embeddedvideo_show_quicktag', TRUE);
-add_option('embeddedvideo_small', FALSE);
-add_option('embeddedvideo_pluginlink', TRUE);
-add_option('embeddedvideo_version', EV_VERSION);
-add_option('embeddedvideo_updnotific', FALSE);
-add_option('embeddedvideo_shownolink', FALSE);
-update_option('embeddedvideo_version', EV_VERSION);
+function embeddedvideo_initialize() {
+	add_option('embeddedvideo_prefix', "Direkt");
+	add_option('embeddedvideo_space', "false");
+	add_option('embeddedvideo_width', 425);
+	add_option('embeddedvideo_small', "false");
+	add_option('embeddedvideo_pluginlink', "true");
+	add_option('embeddedvideo_version', EV_VERSION);
+	add_option('embeddedvideo_shownolink', "false");
+	add_option('embeddedvideo_showinfeed', "true");
+    update_option('embeddedvideo_version', EV_VERSION);
+}
 
 if ('true' == get_option('embeddedvideo_space')) {
 	$ev_space = '&nbsp;';
@@ -45,7 +53,7 @@ define("YOUTUBE_HEIGHT", floor(GENERAL_WIDTH*14/17));
 define("GOOGLE_HEIGHT", floor(GENERAL_WIDTH*14/17));
 define("MYVIDEO_HEIGHT", floor(GENERAL_WIDTH*367/425));
 define("CLIPFISH_HEIGHT", floor(GENERAL_WIDTH*95/116));
-define("SEVENLOAD_HEIGHT", floor(GENERAL_WIDTH*313/380));
+define("SEVENLOAD_HEIGHT", floor(GENERAL_WIDTH*408/500));
 define("REVVER_HEIGHT", floor(GENERAL_WIDTH*49/60));
 define("METACAFE_HEIGHT", floor(GENERAL_WIDTH*69/80));
 define("YAHOO_HEIGHT", floor(GENERAL_WIDTH*14/17));
@@ -63,6 +71,7 @@ define("GARAGE_HEIGHT", floor(GENERAL_WIDTH*289/430));
 define("GAMEVIDEO_HEIGHT", floor(GENERAL_WIDTH*3/4));
 define("VSOCIAL_HEIGHT", floor(GENERAL_WIDTH*40/41));
 define("VEOH_HEIGHT", floor(GENERAL_WIDTH*73/90));
+define("GAMETRAILERS_HEIGHT", floor(GENERAL_WIDTH*392/480));
 
 // object targets and links
 define("YOUTUBE_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.youtube.com/v/###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".YOUTUBE_HEIGHT."\"><param name=\"movie\" value=\"http://www.youtube.com/v/###VID###\" /><param name=\"autostart\" value=\"true\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
@@ -73,8 +82,8 @@ define("MYVIDEO_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"
 define("MYVIDEO_LINK", "<a title=\"MyVideo\" href=\"http://www.myvideo.de/watch/###VID###\">MyVideo ###TXT######THING###</a>");
 define("CLIPFISH_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.clipfish.de/videoplayer.swf?as=0&amp;videoid=###VID###&amp;r=1\" width=\"".GENERAL_WIDTH."\" height=\"".CLIPFISH_HEIGHT."\"><param name=\"movie\" value=\"http://www.clipfish.de/videoplayer.swf?as=0&amp;videoid=###VID###&amp;r=1\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
 define("CLIPFISH_LINK", "<a title=\"Clipfish\" href=\"http://www.clipfish.de/player.php?videoid=###VID###\">Clipfish ###TXT######THING###</a>");
-define("SEVENLOAD_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://page.sevenload.com/swf/player.swf?id=###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".SEVENLOAD_HEIGHT."\"><param name=\"movie\" value=\"http://page.sevenload.com/swf/player.swf?id=###VID###\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
-define("SEVENLOAD_LINK", "<a title=\"Sevenload\" href=\"http://sevenload.de/videos/###VID###\">Sevenload ###TXT######THING###</a>");
+define("SEVENLOAD_TARGET", "<script type='text/javascript' src='http://sevenload.com/pl/###VID###/".GENERAL_WIDTH."x".SEVENLOAD_HEIGHT."'></script><br />");
+define("SEVENLOAD_LINK", "<a title=\"Sevenload\" href=\"http://sevenload.com/videos/###VID###\">Sevenload ###TXT######THING###</a>");
 define("REVVER_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://flash.revver.com/player/1.0/player.swf?mediaId=###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".REVVER_HEIGHT."\"><param name=\"movie\" value=\"http://flash.revver.com/player/1.0/player.swf?mediaId=###VID###\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
 define("REVVER_LINK", "<a title=\"Revver\" href=\"http://one.revver.com/watch/###VID###\">Revver ###TXT######THING###</a>");
 define("METACAFE_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.metacafe.com/fplayer/###VID###.swf\" width=\"".GENERAL_WIDTH."\" height=\"".METACAFE_HEIGHT."\"><param name=\"movie\" value=\"http://www.metacafe.com/fplayer/###VID###.swf\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
@@ -101,31 +110,30 @@ define("VSOCIAL_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"
 define("VSOCIAL_LINK", "<a title=\"vSocial\" href=\"http://www.vsocial.com/video/?d=###VID###\">vSocial ###TXT######THING###</a>");
 define("VEOH_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.veoh.com/videodetails2.swf?player=videodetailsembedded&type=v&permalinkId=###VID###&id=anonymous\" width=\"".GENERAL_WIDTH."\" height=\"".VEOH_HEIGHT."\"><param name=\"movie\" value=\"http://www.veoh.com/videodetails2.swf?player=videodetailsembedded&type=v&permalinkId=###VID###&id=anonymous\" /><param name=\"autostart\" value=\"true\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
 define("VEOH_LINK", "<a title=\"Veoh\" href=\"http://www.veoh.com/videos/###VID###\">Veoh ###TXT######THING###</a>");
-
+define("GAMETRAILERS_TARGET", "<object type=\"application/x-shockwave-flash\" data=\"http://www.gametrailers.com/remote_wrap.php?mid=###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".GAMETRAILERS_HEIGHT."\"><param name=\"movie\" value=\"http://www.gametrailers.com/remote_wrap.php?mid=###VID###\" /><param name=\"autostart\" value=\"true\" /><param name=\"wmode\" value=\"transparent\" /></object><br />");
+define("GAMETRAILERS_LINK", "<a title=\"Gametrailers\" href=\"http://www.gametrailers.com/player/###VID###.html\">Gametrailers ###TXT######THING###</a>");
 
 define("LOCAL_QUICKTIME_TARGET", "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\" codebase=\"http://www.apple.com/qtactivex/qtplugin.cab\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\"><param name=\"src\" value=\"".get_option('siteurl')."###VID###\" /><param name=\"autoplay\" value=\"false\" /><param name=\"pluginspage\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\" type=\"video/quicktime\"><param name=\"pluginurl\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><param name=\"autoplay\" value=\"false\" /></object><!--> <![endif]--></object><br />");
-define("LOCAL_FLASHPLAYER_TARGET", "<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"".GENERAL_WIDTH."\" height=\"".FLASHPLAYER_HEIGHT."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param name=\"movie\" value=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" /><param value=\"file=".get_option('siteurl')."###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=".get_option('siteurl')."###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><!--> <![endif]--></object><br />");
+define("LOCAL_FLASHPLAYER_TARGET", "<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"".GENERAL_WIDTH."\" height=\"".FLASHPLAYER_HEIGHT."\"><param value=\"#FFFFFF\" name=\"bgcolor\" /><param name=\"movie\" value=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/mediaplayer/player.swf\" /><param value=\"file=".get_option('siteurl')."###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\" /><param name=\"wmode\" value=\"transparent\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/mediaplayer/player.swf\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=".get_option('siteurl')."###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\" /><param name=\"wmode\" value=\"transparent\" /></object><!--> <![endif]--></object><br />");
 define("LOCAL_TARGET", "<object classid=\"clsid:22D6f312-B0F6-11D0-94AB-0080C74C7E95\" codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-oleobject\"><param name=\"filename\" value=\"".get_option('siteurl')."###VID###\" /><param name=\"autostart\" value=\"false\" /><param name=\"showcontrols\" value=\"true\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-mplayer2\"><param name=\"pluginurl\" value=\"http://www.microsoft.com/Windows/MediaPlayer/\" /><param name=\"ShowControls\" value=\"true\" /><param name=\"ShowStatusBar\" value=\"true\" /><param name=\"ShowDisplay\" value=\"true\" /><param name=\"Autostart\" value=\"0\" /></object><!--> <![endif]--></object><br />");
 define("LOCAL_LINK", "<a title=\"Video File\" href=\"".get_option('siteurl')."###VID###\">Download Video</a>");
 
 define("QUICKTIME_TARGET", "<object classid=\"clsid:02BF25D5-8C17-4B23-BC80-D3488ABDDC6B\" codebase=\"http://www.apple.com/qtactivex/qtplugin.cab\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\"><param name=\"src\" value=\"###VID###\" /><param name=\"autoplay\" value=\"false\" /><param name=\"pluginspage\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><!--[if !IE]> <--><object data=\"###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".QUICKTIME_HEIGHT."\" type=\"video/quicktime\"><param name=\"pluginurl\" value=\"http://www.apple.com/quicktime/download/\" /><param name=\"controller\" value=\"true\" /><param name=\"autoplay\" value=\"false\" /></object><!--> <![endif]--></object><br />");
-define("FLASHPLAYER_TARGET", "<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"".GENERAL_WIDTH."\" height=\"".FLASHPLAYER_HEIGHT."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param name=\"movie\" value=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf\" /><param value=\"file=###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/flash_flv_player/flvplayer.swf?file=###VID###\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><!--> <![endif]--></object><br />");
+define("FLASHPLAYER_TARGET", "<object classid=\"clsid:d27cdb6e-ae6d-11cf-96b8-444553540000\" codebase=\"http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0\" width=\"".GENERAL_WIDTH."\" height=\"".FLASHPLAYER_HEIGHT."\"><param value=\"#FFFFFF\" name=\"bgcolor\" /><param name=\"movie\" value=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/mediaplayer/player.swf\" /><param value=\"file=###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\" /><param name=\"wmode\" value=\"transparent\" /><!--[if !IE]> <--><object data=\"".get_option('siteurl')."/wp-content/plugins/embedded-video/mediaplayer/player.swf?file=###VID###\" type=\"application/x-shockwave-flash\" height=\"".FLASHPLAYER_HEIGHT."\" width=\"".GENERAL_WIDTH."\"><param value=\"#FFFFFF\" name=\"bgcolor\"><param value=\"file=###VID###&amp;showdigits=true&amp;autostart=false&amp;overstretch=false&amp;showfsbutton=false\" name=\"flashvars\"><param name=\"wmode\" value=\"transparent\" /></object><!--> <![endif]--></object><br />");
 define("VIDEO_TARGET", "<object classid=\"clsid:22D6f312-B0F6-11D0-94AB-0080C74C7E95\" codebase=\"http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=6,4,7,1112\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-oleobject\"><param name=\"filename\" value=\"###VID###\" /><param name=\"autostart\" value=\"false\" /><param name=\"showcontrols\" value=\"true\" /><!--[if !IE]> <--><object data=\"###VID###\" width=\"".GENERAL_WIDTH."\" height=\"".VIDEO_HEIGHT."\" type=\"application/x-mplayer2\"><param name=\"pluginurl\" value=\"http://www.microsoft.com/Windows/MediaPlayer/\" /><param name=\"ShowControls\" value=\"true\" /><param name=\"ShowStatusBar\" value=\"true\" /><param name=\"ShowDisplay\" value=\"true\" /><param name=\"Autostart\" value=\"0\" /></object><!--> <![endif]--></object><br />");
 define("VIDEO_LINK", "<a title=\"Video File\" href=\"###VID###\">Download Video</a>");
 
 // regular expressions
-define("REGEXP_1", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|veoh|local|video) ([[:graph:]]+) (nolink)\]/");
-define("REGEXP_2", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|veoh|local|video) ([[:graph:]]+) ([[:print:]]+)\]/");
-define("REGEXP_3", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|veoh|local|video) ([[:graph:]]+)\]/");
+define("REGEXP_1", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|veoh|gametrailers|local|video) ([[:graph:]]+) (nolink)\]/");
+define("REGEXP_2", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|veoh|gametrailers|local|video) ([[:graph:]]+) ([[:print:]]+)\]/");
+define("REGEXP_3", "/\[(google|youtube|myvideo|clipfish|sevenload|revver|metacafe|yahoo|ifilm|myspace|brightcove|aniboom|vimeo|guba|dailymotion|garagetv|gamevideo|vsocial|veoh|gametrailers|local|video) ([[:graph:]]+)\]/");
 
 // logic
 function embeddedvideo_plugin_callback($match) {
 	$output = '';
 	// insert plugin link
 	if ((!is_feed())&&('true' == get_option('embeddedvideo_pluginlink'))) $output .= '<small>'.__('embedded by','embeddedvideo').' <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="'.__('plugin page','embeddedvideo').'"><em>Embedded Video</em></a></small><br />';
-
-	// insert video if not a feed
-	if ( !is_feed() ) {
+	if (!is_feed()) {
 		switch ($match[1]) {
 			case "youtube": $output .= YOUTUBE_TARGET; break;
 			case "google": $output .= GOOGLE_TARGET; break;
@@ -146,6 +154,7 @@ function embeddedvideo_plugin_callback($match) {
 			case "dailymotion": $output .= DAILYMOTION_TARGET; $match[3] = "nolink"; break;
 			case "garagetv": $output .= GARAGE_TARGET; $match[3] = "nolink"; break;
 			case "veoh": $output .= VEOH_TARGET; break;
+			case "gametrailers": $output .= GAMETRAILERS_TARGET; break;
 			case "local":
 				if (preg_match("%([[:print:]]+).(mov|qt|MOV|QT)$%", $match[2])) { $output .= LOCAL_QUICKTIME_TARGET; break; }
 				elseif (preg_match("%([[:print:]]+).(wmv|mpg|mpeg|mpe|asf|asx|wax|wmv|wmx|avi|WMV|MPG|MPEG|MPE|ASF|ASX|WAX|WMV|WMX|AVI)$%", $match[2])) { $output .= LOCAL_TARGET; break; }
@@ -156,45 +165,37 @@ function embeddedvideo_plugin_callback($match) {
 				elseif (preg_match("%([[:print:]]+).(swf|flv|SWF|FLV)$%", $match[2])) { $output .= FLASHPLAYER_TARGET; break; }
 			default: break;
 		}
-	} else {
-		// if a feed, overwrite nolink option
-		$match[3] = "video link";
-	}
-	// if shownolink option false or if feed, show link
-	if ('false' == get_option('embeddedvideo_shownolink')||is_feed()) {
-
-	if ($match[3] != "nolink") {
-		if ( is_feed() ) $output .= '<p>';
-		$ev_small = get_option('embeddedvideo_small');
-		if ('true' == $ev_small) $output .= "<small>";
-		switch ($match[1]) {
-			case "youtube": $output .= YOUTUBE_LINK; break;
-			case "google": $output .= GOOGLE_LINK; break;
-			case "myvideo": $output .= MYVIDEO_LINK; break;
-			case "clipfish": $output .= CLIPFISH_LINK; break;
-			case "sevenload": $output .= SEVENLOAD_LINK; break;
-			case "revver": $output .= REVVER_LINK; break;
-			case "metacafe": $output .= METACAFE_LINK; break;
-			case "yahoo": $output .= YAHOO_LINK; break;
-			case "ifilm": $output .= IFILM_LINK; break;
-			case "myspace": $output .= MYSPACE_LINK; break;
-			case "brightcove": $output .= BRIGHTCOVE_LINK; break;
-			case "aniboom": $output .= ANIBOOM_LINK; break;
-			case "vimeo": $output .= VIMEO_LINK; break;
-			case "guba": $output .= GUBA_LINK; break;
-			case "gamevideo": $output .= GAMEVIDEO_LINK; break;
-			case "vsocial": $output .= VSOCIAL_LINK; break;
-			case "dailymotion": $output.= 'Go to the blog entry to see the video!'; break;
-			case "garagetv": $output.= 'Go to the blog entry to see the video!'; break;
-			case "veoh": $output .= VEOH_LINK; break;
-			case "local": $output .= LOCAL_LINK; break;
-			case "video": $output .= VIDEO_LINK; break;
-			default: break;
+		if (get_option('embeddedvideo_shownolink')=='false') {
+			if ($match[3] != "nolink") {
+				$ev_small = get_option('embeddedvideo_small');
+				if ('true' == $ev_small) $output .= "<small>";
+				switch ($match[1]) {
+					case "youtube": $output .= YOUTUBE_LINK; break;
+					case "google": $output .= GOOGLE_LINK; break;
+					case "myvideo": $output .= MYVIDEO_LINK; break;
+					case "clipfish": $output .= CLIPFISH_LINK; break;
+					case "sevenload": $output .= SEVENLOAD_LINK; break;
+					case "revver": $output .= REVVER_LINK; break;
+					case "metacafe": $output .= METACAFE_LINK; break;
+					case "yahoo": $output .= YAHOO_LINK; break;
+					case "ifilm": $output .= IFILM_LINK; break;
+					case "myspace": $output .= MYSPACE_LINK; break;
+					case "brightcove": $output .= BRIGHTCOVE_LINK; break;
+					case "aniboom": $output .= ANIBOOM_LINK; break;
+					case "vimeo": $output .= VIMEO_LINK; break;
+					case "guba": $output .= GUBA_LINK; break;
+					case "gamevideo": $output .= GAMEVIDEO_LINK; break;
+					case "vsocial": $output .= VSOCIAL_LINK; break;
+					case "veoh": $output .= VEOH_LINK; break;
+					case "gametrailers": $output .= GAMETRAILERS_LINK; break;
+					case "local": $output .= LOCAL_LINK; break;
+					case "video": $output .= VIDEO_LINK; break;
+					default: break;
+				}
+				if ('true' == $ev_small) $output .= "</small>";
+			}
 		}
-		if ('true' == $ev_small) $output .= "</small>";
-		if ( is_feed() ) $output .= '</p>';
-	}
-	}
+	} else if (get_option('embeddedvideo_showinfeed')=='true') $output .= __('[There is a video that cannot be displayed in this feed. ', 'embeddedvideo').'<a href="'.get_permalink().'">'.__('Visit the blog entry to see the video.]','embeddedvideo').'</a>';
 
 	// postprocessing
 	// first replace linktext
@@ -209,7 +210,7 @@ function embeddedvideo_plugin_callback($match) {
 	$output = str_replace("###VID###", $match[2], $output);
 	$output = str_replace("###THING###", $match[3], $output);
 	// add HTML comment
-	$output .= "\n<!-- generated by WordPress plugin Embedded Video with Link -->\n";
+	if (!is_feed()) $output .= "\n<!-- generated by WordPress plugin Embedded Video -->\n";
 	return ($output);
 }
 
@@ -263,6 +264,12 @@ global $wpdb, $table_prefix;
 			update_option('embeddedvideo_shownolink', "false");
 		}
 
+		if (!empty($_POST['embeddedvideo_showinfeed'])) {
+			update_option('embeddedvideo_showinfeed', "true");
+		} else {
+			update_option('embeddedvideo_showinfeed', "false");
+		}
+
 		$ev_width = $_POST['embeddedvideo_width'];
 		if ($ev_width == "") $errs[] = __('Object width must be set!','embeddedvideo');
 		elseif (($ev_width>800)||($ev_width<250)||(!preg_match("/^[0-9]{3}$/", $ev_width))) $errs[] = __('Object width must be a number between 250 and 800!','embeddedvideo');
@@ -303,6 +310,11 @@ global $wpdb, $table_prefix;
 		$ev_shownolink = '';
 	}
 
+	if ('true' == get_option('embeddedvideo_showinfeed')) {
+		$ev_showinfeed = 'checked="true"';
+	} else {
+		$ev_showinfeed = '';
+	}
 	?>
 
 	<div style="width:75%;" class="wrap" id="embeddedvideo_options_panel">
@@ -319,6 +331,7 @@ global $wpdb, $table_prefix;
 		<form method="post">
 			<div>
 				<label for="embeddedvideo_shownolink" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_shownolink" id="embeddedvideo_shownolink" value="<?php echo get_option('embeddedvideo_shownolink') ?>" <?php echo $ev_shownolink; ?> /> <?php echo _e('Never show the video link (exception: feeds)','embeddedvideo'); ?></label><br />
+				<label for="embeddedvideo_showinfeed" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_showinfeed" id="embeddedvideo_showinfeed" value="<?php echo get_option('embeddedvideo_showinfeed') ?>" <?php echo $ev_showinfeed; ?> /> <?php echo _e('In feed, show link to blog post (video embedding in feed not yet available)','embeddedvideo'); ?></label><br />
 				<?php echo _e('Prefix:','embeddedvideo'); ?> <input type="text" value="<?php echo get_option('embeddedvideo_prefix') ?>" name="embeddedvideo_prefix" id="embeddedvideo_prefix" /><br />
 				<label for="embeddedvideo_space" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_space" id="embeddedvideo_space" value="<?php echo get_option('embeddedvideo_space') ?>" <?php echo $ev_space; ?> /> <?php echo _e('Following space character','embeddedvideo'); ?></label><br />
 				<label for="embeddedvideo_small" style="cursor: pointer;"><input type="checkbox" name="embeddedvideo_small" id="embeddedvideo_small" value="<?php echo get_option('embeddedvideo_small') ?>" <?php echo $ev_small; ?> /> <?php echo _e('Use smaller font size for link','embeddedvideo'); ?></label><br />
@@ -334,8 +347,8 @@ global $wpdb, $table_prefix;
 	<h3><?php echo _e('Preview','embeddedvideo'); ?></h3>
 	<div class="wrap">
 	<p><?php echo _e('Your current settings produce the following output:','embeddedvideo'); ?></p>
-	<p><?php if ('true' == get_option('embeddedvideo_pluginlink')) echo '<small>'.__('embedded by','embeddedvideo').' <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="Plugin Page"><em>Embedded Video with Link</em></a></small><br />'; ?>
-	<object type="application/x-shockwave-flash" data="http://www.youtube.com/v/nglMDkUbRSk" width="<?php echo get_option('embeddedvideo_width'); ?>" height="<?php echo floor(get_option('embeddedvideo_width')*14/17); ?>"><param name="movie" value="http://www.youtube.com/v/nglMDkUbRSk" /></object><br />
+	<p><?php if ('true' == get_option('embeddedvideo_pluginlink')) echo '<small>'.__('embedded by','embeddedvideo').' <a href="http://wordpress.org/extend/plugins/embedded-video-with-link/" title="Plugin Page"><em>Embedded Video</em></a></small><br />'; ?>
+	<object type="application/x-shockwave-flash" data="http://www.youtube.com/v/gcFS5cnnWAM" width="<?php echo get_option('embeddedvideo_width'); ?>" height="<?php echo floor(get_option('embeddedvideo_width')*14/17); ?>"><param name="movie" value="http://www.youtube.com/v/gcFS5cnnWAM" /></object><br />
 	<?php if ('false' == get_option('embeddedvideo_shownolink')) { $ev_issmall = get_option('embeddedvideo_small'); if ('true' == $ev_issmall) echo "<small>"; ?>
 	<a title="YouTube" href="http://www.youtube.com/watch?v=nglMDkUbRSk">YouTube <?php echo get_option('embeddedvideo_prefix'); if ('true' == get_option('embeddedvideo_space')) echo "&nbsp;"; ?>blablabla</a><?php if ('true' == $ev_issmall) echo "</small>"; } ?>
 	</p>
@@ -350,61 +363,44 @@ global $wpdb, $table_prefix;
 }
 
 function embeddedvideo_add_options_panel() {
-	add_options_page('Embedded Video', 'Embedded Video', 1, 'embeddedvideo_options_page', 'embeddedvideo_option_page');
+	add_options_page('Embedded Video', 'Embedded Video', 'manage_options', 'embeddedvideo_options_page', 'embeddedvideo_option_page');
 }
-add_action('admin_menu', 'embeddedvideo_add_options_panel');
 
-
-function embeddedvideo_init() {
-	if (function_exists('load_plugin_textdomain')) load_plugin_textdomain('embeddedvideo','/wp-content/plugins/embedded-video');
-}
-add_action('init', 'embeddedvideo_init');
-
-
-/***************************************
- Editor QuickButton
- Inserts a Quickbutton into Editor
- using buttonsnap (http://redalt.com)
-***************************************/
-
-require_once("buttonsnap.php");
-add_action('init', 'embeddedvideo_buttons');
-add_action('edit_form_advanced', 'embeddedvideo_quicktag_js');
-add_action('edit_page_form', 'embeddedvideo_quicktag_js');
-
-function embeddedvideo_button($buttons) {
-	array_push($buttons, "embeddedvideo");
+function embeddedvideo_mcebutton($buttons) {
+	array_push($buttons, "|", "embeddedvideo");
 	return $buttons;
 }
 
-function embeddedvideo_button_plugin($plugins) {
-	array_push($plugins, "-embeddedvideo");
-	return $plugins;
+function embeddedvideo_mceplugin($ext_plu) {
+	if (is_array($ext_plu) == false) {
+		$ext_plu = array();
+	}
+	$url = get_option('siteurl')."/wp-content/plugins/embedded-video/editor_plugin.js";
+	$result = array_merge($ext_plu, array("embeddedvideo" => $url));
+	return $result;
 }
 
-function embeddedvideo_button_script() {
-	$pluginURL = get_option('siteurl')."/wp-content/plugins/embedded-video/";
-	echo 'tinyMCE.loadPlugin("embeddedvideo", "'.$pluginURL.'");'."\n";
-	return;
-}
-
-function embeddedvideo_buttons() {
-	global $wp_db_version;
-	if ( !current_user_can('edit_posts') && !current_user_can('edit_pages') ) return;
-	if ( 3664 <= $wp_db_version && 'true' == get_user_option('rich_editing') ) {
-		add_filter('mce_plugins', 'embeddedvideo_button_plugin', 0);
-		add_filter('mce_buttons', 'embeddedvideo_button', 0);
-		add_action('tinymce_before_init', 'embeddedvideo_button_script');
-	} else {
-	    $post = (int) $_GET['post'];
-		$base = buttonsnap_dirname(__FILE__);
-		buttonsnap_jsbutton($base . '/embeddedvideo-button.png', 'Embed Video', "embeddedvideo_insert($post);");
+function embeddedvideo_mceinit() {
+	if (function_exists('load_plugin_textdomain')) load_plugin_textdomain('embeddedvideo','/wp-content/plugins/embedded-video');
+	if ( 'true' == get_user_option('rich_editing') ) {
+		add_filter("mce_external_plugins", "embeddedvideo_mceplugin", 0);
+		add_filter("mce_buttons", "embeddedvideo_mcebutton", 0);
 	}
 }
 
-function embeddedvideo_quicktag_js() {
-	$base = buttonsnap_dirname(__FILE__);
-	echo "<script type='text/javascript' src='$base/embedded-video.js'></script>\n";
+function embeddedvideo_script() {
+	echo "<script type='text/javascript' src='".get_option('siteurl')."/wp-content/plugins/embedded-video/embedded-video.js'></script>\n";
 }
+
+if ( function_exists('add_action') ) {
+	if (( isset($_GET['activate']) && $_GET['activate'] == 'true' ) || ( get_option('embeddedvideo_version') <> EV_VERSION )) {
+		add_action('init', 'embeddedvideo_initialize');
+	}
+	add_action('init', 'embeddedvideo_mceinit');
+	add_action('admin_print_scripts', 'embeddedvideo_script');
+	add_action('admin_menu', 'embeddedvideo_add_options_panel');
+}
+
+} // closing if for version check
 
 ?>

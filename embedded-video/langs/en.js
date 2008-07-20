@@ -8,6 +8,6 @@ else {
 	var metaKey = 'Alt';
 }
 
-tinyMCE.addToLang('embeddedvideo',{
-title : 'Embed Video'
+tinyMCE.addI18n('en.embeddedvideo',{
+desc : 'Embedded Video Plugin - Embed Video'
 });

@@ -1,39 +1,36 @@
-if (tinyMCE.settings['language'] != 'en' && tinyMCE.settings['language'] != 'de_de') {
-	var temp = tinyMCE.settings['language'];
-	tinyMCE.settings['language'] = 'en';
-	tinyMCE.importPluginLanguagePack('embeddedvideo','en');
-	tinyMCE.settings['language'] = temp;
-} else {
-	tinyMCE.importPluginLanguagePack('embeddedvideo','en, de_de');
-}
-
-tinyMCE.settings['language'] = temp;
-
-var TinyMCE_embeddedvideoPlugin = {
-	getInfo : function() {
-		return {
-			longname : 'Embedded Video with Link',
-			author : 'Stefan He&szlig;',
-			authorurl : 'http://www.jovelstefan.de',
-			infourl : 'http://www.jovelstefan.de/embedded-video/',
-			version : "1.0"
-		};
-	},
-	getControlHTML : function(cn) {
-		switch (cn) {
-			case "embeddedvideo":
-				return tinyMCE.getButtonHTML(cn, 'lang_embeddedvideo_title', '{$pluginurl}/embeddedvideo-button.png', 'mce_embeddedvideo');
+(function() {
+	// Load plugin specific language pack
+	tinymce.PluginManager.requireLangPack('embeddedvideo');
+	
+	tinymce.create('tinymce.plugins.embeddedvideoPlugin', {
+		init : function(ed, url) {
+			var t = this;
+			t.editor = ed;
+			ed.addCommand('mce_embeddedvideo', t._embeddedvideo, t);
+			ed.addButton('embeddedvideo',{
+				title : 'embeddedvideo.desc', 
+				cmd : 'mce_embeddedvideo',
+				image : url + '/img/embeddedvideo-button.png'
+			});
+		},
+		
+		getInfo : function() {
+			return {
+				longname : 'Embedded Video Plugin for Wordpress',
+				author : 'Stefan He&szlig;',
+				authorurl : 'http://www.jovelstefan.de',
+				infourl : 'http://www.jovelstefan.de/embedded-video/',
+				version : '2.0'
+			};
+		},
+		
+		// Private methods
+		_embeddedvideo : function() { // open a popup window
+			embeddedvideo_insert();
+			return true;
 		}
-		return "";
-	},
-	execCommand : function(editor_id, element, command, user_interface, value) {
-		switch (command) {
-			case "mce_embeddedvideo":
-				embeddedvideo_insert('wp21');
-				return true;
-		}
-		return false;
-	}
-};
+	});
 
-tinyMCE.addPlugin('embeddedvideo', TinyMCE_embeddedvideoPlugin);
+	// Register plugin
+	tinymce.PluginManager.add('embeddedvideo', tinymce.plugins.embeddedvideoPlugin);
+})();

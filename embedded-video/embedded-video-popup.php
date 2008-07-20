@@ -80,7 +80,7 @@ else
   $attachments = $wpdb->get_results("SELECT post_title, guid FROM $wpdb->posts WHERE post_status = 'attachment' $and_type $and_user ORDER BY post_date_gmt DESC LIMIT 0, 10", ARRAY_A);
 
 ?>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<script language="javascript" type="text/javascript" src="<?php echo get_option('siteurl') ?>/wp-includes/js/tinymce/tiny_mce_popup.js"></script>
@@ -107,11 +107,12 @@ else
 					border-top-color: rgb(204, 204, 204);
 					color: rgb(51, 51, 51);
 					padding: 0.25em 0.75em;
-				}
+		}
 		#portal_insert:active, #portal_cancel:active, #select_insert:active, #select_cancel:active, #upload_insert:active, #upload_cancel:active, #remote_insert:active, #remote_cancel:active {
 					background: #f4f4f4;
 					border-left-color: #999;
 					border-top-color: #999;
+		}
 	</style>
 	<title><?php echo _e('Embed Video','embeddedvideo'); ?></title>
 </head>
@@ -157,6 +158,7 @@ else
                     <option value="gamevideo">GameVideos</option>
                     <option value="vsocial">vSocial</option>
                     <option value="veoh">Veoh</option>
+                    <option value="gametrailers">Gametrailers</option>
                   </select>
                   </td>
                 </tr>
@@ -187,15 +189,15 @@ else
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td><input name="linktext" type="text" id="portal_linktext" value="<?php echo $_GET['linktext']; ?>" style="width: 200px"></td>
+                  <td><input name="linktext" type="text" id="portal_linktext" value="<?php echo $_GET['linktext']; ?>" style="width: 200px" /></td>
                 </tr>
               </table></td>
           </tr>
           <tr>
             <td>
-	    <input type="submit" id="portal_insert" name="insert" value="{$lang_insert}" onclick="ev_checkData(this.form);" />
+	    <input type="submit" id="portal_insert" name="insert" value="<?php echo _e('Insert','embeddedvideo'); ?>" onclick="ev_checkData(this.form);" />
             </td>
-            <td align="right"><input type="button" id="portal_cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" /></td>
+            <td align="right"><input type="button" id="portal_cancel" name="cancel" value="<?php echo _e('Cancel','embeddedvideo'); ?>" onclick="tinyMCEPopup.close();" /></td>
           </tr>
         </table>
       <input type="hidden" name="tab" value="portal" />
@@ -251,9 +253,9 @@ else
             </td>
           </tr>
           <tr>
-            <td><input type="submit" id="select_insert" name="insert" value="{$lang_insert}" onclick="ev_checkData(this.form);"/>
+            <td><input type="submit" id="select_insert" name="insert" value="<?php echo _e('Insert','embeddedvideo'); ?>" onclick="ev_checkData(this.form);"/>
             </td>
-            <td align="right"><input type="button" id="select_cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" /></td>
+            <td align="right"><input type="button" id="select_cancel" name="cancel" value="<?php echo _e('Cancel','embeddedvideo'); ?>" onclick="tinyMCEPopup.close();" /></td>
           </tr>
         </table>
       <input name="portal" type="hidden" id="select_portal" value="local" />
@@ -304,7 +306,7 @@ else
           <tr>
             <td><input type="submit" id="upload_insert" name="insert" value="<?php echo _e('Upload','embeddedvideo'); ?>" />
             </td>
-            <td align="right"><input type="button" id="upload_cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" /></td>
+            <td align="right"><input type="button" id="upload_cancel" name="cancel" value="<?php echo _e('Cancel','embeddedvideo'); ?>" onclick="tinyMCEPopup.close();" /></td>
           </tr>
         </table>
       <input type="hidden" name="action" value="save" />
@@ -316,14 +318,14 @@ else
 
   <div id="remote_panel" class="panel">
     <form name="remote_form" action="#">
+        <input name="portal" type="hidden" id="remote_portal" value="video" />
         <table border="0" cellpadding="4" cellspacing="0">
-          <input name="portal" type="hidden" id="remote_portal" value="video" />
           <tr>
             <td nowrap="nowrap" style="text-align:right;"><?php echo _e('Insert video URL:','embeddedvideo'); ?></td>
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td><input name="vid" type="text" id="remote_vid" value="" style="width: 200px"></td>
+                  <td><input name="vid" type="text" id="remote_vid" value="" style="width: 200px" /></td>
                 </tr>
               </table></td>
           </tr>
@@ -343,14 +345,14 @@ else
             <td>
               <table border="0" cellspacing="0" cellpadding="0">
                 <tr>
-                  <td><input name="linktext" type="text" id="remote_linktext" value="<?php echo $_GET['linktext']; ?>" style="width: 200px"></td>
+                  <td><input name="linktext" type="text" id="remote_linktext" value="<?php echo $_GET['linktext']; ?>" style="width: 200px" /></td>
                 </tr>
               </table></td>
           </tr>
           <tr>
-            <td><input type="submit" id="remote_insert" name="insert" value="{$lang_insert}" onclick="ev_checkData(this.form);" />
+            <td><input type="submit" id="remote_insert" name="insert" value="<?php echo _e('Insert','embeddedvideo'); ?>" onclick="ev_checkData(this.form);" />
             </td>
-            <td align="right"><input type="button" id="remote_cancel" name="cancel" value="{$lang_cancel}" onclick="tinyMCEPopup.close();" /></td>
+            <td align="right"><input type="button" id="remote_cancel" name="cancel" value="<?php echo _e('Cancel','embeddedvideo'); ?>" onclick="tinyMCEPopup.close();" /></td>
           </tr>
         </table>
       <input type="hidden" name="tab" value="remote" />
