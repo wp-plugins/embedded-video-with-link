@@ -4,7 +4,7 @@
 Plugin Name: Embedded Video
 Plugin URI: http://www.jovelstefan.de/embedded-video/
 Description: Easy embedding of videos from various portals or local video files with corresponding link. <a href="options-general.php?page=embeddedvideo_options_page">Configure...</a>
-Version: 4.0
+Version: 4.0.1
 License: GPL
 Author: Stefan He&szlig;
 Author URI: http://www.jovelstefan.de
@@ -22,7 +22,7 @@ if ( $wp_db_version >= 7558 ) {
 if ('embedded-video.php' == basename($_SERVER['SCRIPT_FILENAME']))
 	die ('Please do not access this file directly. Thanks!');
 
-define("EV_VERSION", 400);
+define("EV_VERSION", 401);
 
 // initiate options and variables
 function embeddedvideo_initialize() {
