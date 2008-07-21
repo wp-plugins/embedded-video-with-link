@@ -381,7 +381,7 @@ function embeddedvideo_mceplugin($ext_plu) {
 }
 
 function embeddedvideo_mceinit() {
-	if (function_exists('load_plugin_textdomain')) load_plugin_textdomain('embeddedvideo','/wp-content/plugins/embedded-video');
+	if (function_exists('load_plugin_textdomain')) load_plugin_textdomain('embeddedvideo','/wp-content/plugins/embedded-video/langs');
 	if ( 'true' == get_user_option('rich_editing') ) {
 		add_filter("mce_external_plugins", "embeddedvideo_mceplugin", 0);
 		add_filter("mce_buttons", "embeddedvideo_mcebutton", 0);
