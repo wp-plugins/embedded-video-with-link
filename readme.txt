@@ -4,7 +4,7 @@ Donate link: http://www.jovelstefan.de/embedded-video/
 Tags: embedding, video, embed, portal, youtube, sevenload, google, myvideo, clipfish, revver, yahoo, metacafe, ifilm, myspace, brightcove, aniboom, guba, dailymotion, vimeo, garage, garage tv, gamevideos, flash, vsocial, editor, plugin, wysiwyg, post, veoh
 Requires at least: 2.5
 Tested up to: 2.6
-Stable tag: 4.0
+Stable tag: 4.1
 
 Easy embedding of videos from lots of portals or local video files of many file formats with optional generation of a corresponding link.
 
@@ -51,8 +51,8 @@ Please leave your feature requests and bug notifications by commenting on the [p
 
 == Installation ==
 
-Copy the subfolder "embedded-video" with all included files into the "wp-content/plugins" folder of WordPress. Then go to the menu "Administration" > "Plugins" and activate it. 
-If you want the plugin to play own Flash videos (FLV/SWF files), you need to add [JW FLV Media Player](http://www.jeroenwijering.com/?item=JW_FLV_Player) manually. Download the zip-file, extract it and simply copy the containing folder ‘mediaplayer’ to the plugin folder ‘embedded-video’.
+Copy the subfolder "embedded-video-with-link" with all included files into the "wp-content/plugins" folder of WordPress. Then go to the menu "Administration" > "Plugins" and activate it. 
+If you want the plugin to play own Flash videos (FLV/SWF files), you need to add [JW FLV Media Player](http://www.jeroenwijering.com/?item=JW_FLV_Player) manually. Download the zip-file, extract it and simply copy the containing folder ‘mediaplayer’ to the plugin folder ‘embedded-video-with-link’.
 
 Note: If you want to use the FLV Media Player commercially, a license fee has to be paid! See above linked page for license information.
 

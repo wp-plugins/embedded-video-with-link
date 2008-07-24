@@ -1,13 +1,13 @@
 (function() {
 	// Load plugin specific language pack
-	tinymce.PluginManager.requireLangPack('embeddedvideo');
+	tinymce.PluginManager.requireLangPack('embedded_video');
 	
 	tinymce.create('tinymce.plugins.embeddedvideoPlugin', {
 		init : function(ed, url) {
 			var t = this;
 			t.editor = ed;
 			ed.addCommand('mce_embeddedvideo', t._embeddedvideo, t);
-			ed.addButton('embeddedvideo',{
+			ed.addButton('embedded_video',{
 				title : 'embeddedvideo.desc', 
 				cmd : 'mce_embeddedvideo',
 				image : url + '/img/embeddedvideo-button.png'
@@ -32,5 +32,5 @@
 	});
 
 	// Register plugin
-	tinymce.PluginManager.add('embeddedvideo', tinymce.plugins.embeddedvideoPlugin);
+	tinymce.PluginManager.add('embedded_video', tinymce.plugins.embeddedvideoPlugin);
 })();

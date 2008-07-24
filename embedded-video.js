@@ -3,7 +3,7 @@ function embeddedvideo_insert() {
 		var postnumber = document.getElementById('post_ID').value;		
 
 		tinyMCE.activeEditor.windowManager.open( {
-				url : tinyMCE.activeEditor.documentBaseURI + '../../../wp-content/plugins/embedded-video/embedded-video-popup.php?post='+postnumber,
+				url : tinyMCE.activeEditor.documentBaseURI + '../../../wp-content/plugins/embedded-video-with-link/embedded-video-popup.php?post='+postnumber,
 				width : 440,
 				height : 220,
 				resizable : 'no',
