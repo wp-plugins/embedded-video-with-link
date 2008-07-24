@@ -11,6 +11,7 @@ Easy embedding of videos from lots of portals or local video files of many file 
 == Description ==
 
 CAUTION! The newest version of this plugin is not compatible with WP versions before 2.5! But if you use an older version, you can at least use version 3.4 of this plugin.
+CAUTION! If you use the automatic plugin update of wordpress when migrating from version 4.0 to a newer one, you have to activate manually as directory structure changed. Delete the folder "embedded-video" in your plugins folder afterwards, only "embedded-video-with-link" is still valid!
 
 Please rate this plugin! Please donate!
 
